@@ -1,0 +1,21 @@
+﻿QPushButton
+{
+    background-color:#ffbbbd;
+    border-style:ridge;
+    border-color:#fa47d9;
+    border-width:20px;
+}
+
+
+QWidget
+{
+    background-color:#230054;
+}
+
+QTextEdit
+{
+    background-color:#7de2fa;
+    border-style:ridge;
+    border-color:#0463d4;
+    border-width:20px;
+}

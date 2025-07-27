@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/pic">
+        <file>aseprite-0001.png</file>
+        <file>aseprite-0002.png</file>
+    </qresource>
+</RCC>

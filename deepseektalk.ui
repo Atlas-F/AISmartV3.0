@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>deepseekTalk</class>
+ <widget class="QWidget" name="deepseekTalk">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>785</width>
+    <height>626</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton
+{
+	border-width:20px;
+	border-style:none;
+	border-color:#1E90FF;
+
+	border-radius:20px;
+	padding: 10px;
+	Font-size:20px;
+	color:#purple;
+
+}
+
+QPushButton#send
+{
+	border-width:20px;
+	border-style:none;
+
+
+	border-radius:55px;
+
+	Font-size:20px;
+
+
+}
+
+/* 点击状态（::pressed）：模拟缩小1/4 */
+QPushButton::pressed {
+    /* 增加内边距，挤压内容区（核心：内边距增加量=原尺寸的1/4） */
+    padding: 50px 50px; /* 上下内边距=10+40=50px，左右=10+40=50px（覆盖1/4尺寸） */
+    
+    /* 可选：减小边框宽度，强化缩小感 */
+    border-width: 1px;
+    
+    /* 可选：加深背景色，模拟“凹陷”效果 */
+    background-color: #15151F;
+}
+
+QPushButton:hover
+{
+	border-width:30px;
+	border-color:#1E90FF;
+	background-color:#FF00FF;
+
+	padding: 20px;
+	color:#white;
+}
+
+
+
+QTextEdit#dpsktext
+{
+
+	background-color:black;
+	Font-size:20px;
+	color:#00FF00;
+	border-radius:50px;
+
+
+
+
+}
+
+QTextEdit#usertext
+{
+	border-width:15px;
+	border-style:ridge;
+	border-color:#00BFFF;
+	border-radius:30px;
+	background-color:#00BFFF;
+	Font-size:20px;
+	color:#00FF00;
+	outline-color:red;
+	outline-width:20px;
+	padding-width:5px;
+	padding-color:#1E90FF;
+
+}
+
+QGroupBox
+{
+	border-width:20px;
+	border-style:ridge;
+	border-color:#8A2BE2;
+	outline-color:red;
+	outline-width:20px;
+	border-radius:50px;
+	background-color:#0A0A0F;
+
+}
+
+
+
+{
+	border-width:10px;
+	border-style:solid;
+	border-color:#00BFFF;
+	border-radius:20px;
+
+	background-color:#ffffff;
+}
+
+
+QTextEdit#usertext
+{
+	border-width:10px;
+	border-style:solid;
+	border-color:#00BFFF;
+	border-radius:20px;
+	background-color:#00FF00;
+	Font-size:20px;
+	color:#39FF14;
+	outline-color:red;
+	outline-width:20px;
+	padding-width:5px;
+	padding-color:#1E90FF;
+
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="6,1">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
+          <item>
+           <widget class="QTextEdit" name="dpsktext">
+            <property name="placeholderText">
+             <string>小李正在上线中，请稍后。。。</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="resources.qrc">:/pic/aseprite-0002.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Orientation::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>228</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="10,0">
+          <item>
+           <widget class="QTextEdit" name="usertext"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="send">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>C:/Users/phoen/Downloads/提交.png</normaloff>C:/Users/phoen/Downloads/提交.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
