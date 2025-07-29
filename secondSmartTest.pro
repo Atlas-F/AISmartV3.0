@@ -19,6 +19,7 @@ SOURCES += \
     form123546.cpp \
     main.cpp \
     mainwin.cpp \
+    terminalwidget.cpp \
     transformwidget.cpp \
     widgettest.cpp
 
@@ -32,6 +33,7 @@ HEADERS += \
     flipwidget.h \
     form123546.h \
     mainwin.h \
+    terminalwidget.h \
     transformwidget.h \
     widgettest.h
 

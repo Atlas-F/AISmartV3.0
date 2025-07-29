@@ -8,6 +8,7 @@ debug/flipwidget.o
 debug/form123546.o
 debug/main.o
 debug/mainwin.o
+debug/terminalwidget.o
 debug/transformwidget.o
 debug/widgettest.o
 debug/qrc_resources.o

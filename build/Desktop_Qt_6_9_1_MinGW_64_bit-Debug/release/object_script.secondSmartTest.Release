@@ -8,6 +8,7 @@ release/flipwidget.o
 release/form123546.o
 release/main.o
 release/mainwin.o
+release/terminalwidget.o
 release/transformwidget.o
 release/widgettest.o
 release/qrc_resources.o

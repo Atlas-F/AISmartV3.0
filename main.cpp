@@ -10,12 +10,12 @@
 #include <QTextEdit>
 #include <QLineEdit>
 
-
-
 // #include "RuleEngine.h"
 #include <iostream>
 #include <cstdlib> // 用于系统命令
 #include "CommandSystem.h"
+
+#include "terminalwidget.h"
 #include <fstream>
 
 #ifdef _WIN32
@@ -25,68 +25,37 @@
 #endif
 
 
-// // 文件系统操作
-// void createFile(const std::string& filename) {
-//     std::ofstream file(filename);
-//     if (file) {
-//         std::cout << "文件已创建: " << filename << std::endl;
-//     } else {
-//         std::cerr << "文件创建失败: " << filename << std::endl;
-//     }
-// }
-
-// // 应用程序操作
-// void openApplication(const std::string& appName) {
-// #ifdef _WIN32
-//     // Windows系统
-//     if (appName == "浏览器") {
-//         ShellExecute(0, 0, "https://www.google.com", 0, 0, SW_SHOW);
-//     } else if (appName == "计算器") {
-//         system("calc");
-//     } else if (appName == "记事本") {
-//         system("notepad");
-//     } else {
-//         std::string command = "start " + appName;
-//         system(command.c_str());
-//     }
-// #else
-//     // Linux/MacOS系统
-//     if (appName == "浏览器") {
-//         system("xdg-open https://www.google.com");
-//     } else if (appName == "计算器") {
-//         system("gnome-calculator &");
-//     } else if (appName == "文本编辑器") {
-//         system("gedit &");
-//     } else {
-//         std::string command = appName + " &";
-//         system(command.c_str());
-//     }
-// #endif
-// }
-
-// // 系统命令执行
-// void runSystemCommand(const std::string& command) {
-//     std::cout << "执行系统命令: " << command << std::endl;
-//     system(command.c_str());
-// }
-
-// // 文件搜索
-// void searchFiles(const std::string& pattern) {
-// #ifdef _WIN32
-//     std::string command = "dir /s /b *" + pattern + "*";
-// #else
-//     std::string command = "find . -name '*" + pattern + "*'";
-// #endif
-
-//     std::cout << "搜索文件: " << pattern << std::endl;
-//     system(command.c_str());
-// }
-
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+#if 0
+    // 创建字体对象并设置属性
+    QFont font;
+    font.setFamily("Consolas"); // 字体家族（如"Consolas"、"SimHei"、"Arial"）
+    font.setPointSize(12);      // 字体大小（磅值）
+    font.setBold(true);         // 加粗
+    font.setItalic(true);       // 斜体
+    font.setUnderline(true);    // 下划线
+    font.setFixedPitch(true);   // 等宽字体（终端/代码编辑器常用）
+
+
+
+    TerminalWidget terminaltest;
+
+    // 应用字体到QTextEdit
+    terminaltest.setFont(font);
+    terminaltest.show();
+
+#endif
+
+# if 1
+    // 仅用作测试，如何打开终端时，重定向到文本框，关闭时正常显示
+
+    // 创建命令系统
+    CommandSystem commandSystem;
+    commandSystem.initialize();
     // 创建主窗口
     QWidget window;
     window.setWindowTitle("Qt 命令系统");
@@ -96,14 +65,18 @@ int main(int argc, char *argv[])
     QVBoxLayout *layout = new QVBoxLayout(&window);
 
     // 输出区域
-    QTextEdit *outputArea = new QTextEdit;
-    outputArea->setReadOnly(true);
-    layout->addWidget(outputArea);
+    commandSystem.outputArea = new QTextEdit;
+    commandSystem.outputArea->setReadOnly(true);
+    layout->addWidget(commandSystem.outputArea);
+
+    commandSystem.outputArea2 = new QTextEdit;
+    commandSystem.outputArea2->setReadOnly(true);
+    layout->addWidget(commandSystem.outputArea2);
 
     // 输入区域
-    QLineEdit *inputField = new QLineEdit;
-    inputField->setPlaceholderText("请输入指令...");
-    layout->addWidget(inputField);
+    commandSystem.inputField = new QLineEdit;
+    commandSystem.inputField->setPlaceholderText("请输入指令...");
+    layout->addWidget(commandSystem.inputField);
 
     // 按钮
     QPushButton *executeButton = new QPushButton("执行");
@@ -113,25 +86,27 @@ int main(int argc, char *argv[])
     QLabel *statusLabel = new QLabel("就绪");
     layout->addWidget(statusLabel);
 
-    // 创建命令系统
-    CommandSystem commandSystem;
-    commandSystem.initialize();
+
+    // commandSystem.show();
+    // 赋值给局部变量，用于捕获列表 ，捕获列表支支持局部变量，不支持对象.成员方式
+    QTextEdit* outputArea = commandSystem.outputArea;
+    QLineEdit* inputField = commandSystem.inputField;
 
     // 连接信号
-    QObject::connect(&commandSystem, &CommandSystem::commandResult,
+    commandSystem.conncommandResult = QObject::connect(&commandSystem, &CommandSystem::commandResult,
                      [outputArea, statusLabel](const QString& result) {
                          outputArea->append("结果: " + result);
                          statusLabel->setText("命令执行成功");
                      });
 
-    QObject::connect(&commandSystem, &CommandSystem::errorOccurred,
+    commandSystem.connerrorOccurred = QObject::connect(&commandSystem, &CommandSystem::errorOccurred,
                      [outputArea, statusLabel](const QString& error) {
                          outputArea->append("错误: " + error);
                          statusLabel->setText("发生错误");
                      });
 
     // 执行按钮点击事件
-    QObject::connect(executeButton, &QPushButton::clicked, [&]() {
+    commandSystem.connclicked = QObject::connect(executeButton, &QPushButton::clicked, [&]() {
         QString input = inputField->text().trimmed();
         if (!input.isEmpty()) {
             outputArea->append("> " + input);
@@ -144,81 +119,107 @@ int main(int argc, char *argv[])
     // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
     QObject::connect(inputField, &QLineEdit::returnPressed, executeButton, &QPushButton::click);
 
+    // process = new QProcess(this);
+
+    // // 连接信号
+    // connect(process, &QProcess::readyReadStandardOutput, [=](){
+    //     append(process->readAllStandardOutput());
+    // });
+
+    // connect(process, &QProcess::readyReadStandardError, [=](){
+    //     append("<span style='color:red'>" +
+    //            process->readAllStandardError() + "</span>");
+    // });
+
     window.show();
 
+#endif
 
     // MainWin w;
     // w.show();
 
-    // // 设置应用样式
-    // a.setStyle("Fusion");
-    // // 设置调色板
-    // QPalette palette;
-    // palette.setColor(QPalette::Window, QColor(53,53,53));
-    // palette.setColor(QPalette::WindowText, Qt::white);
-    // palette.setColor(QPalette::Base, QColor(25,25,25));
-    // palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
-    // palette.setColor(QPalette::ToolTipBase, Qt::white);
-    // palette.setColor(QPalette::ToolTipText, Qt::white);
-    // palette.setColor(QPalette::Text, Qt::white);
-    // palette.setColor(QPalette::Button, QColor(53,53,53));
-    // palette.setColor(QPalette::ButtonText, Qt::white);
-    // palette.setColor(QPalette::BrightText, Qt::red);
-    // palette.setColor(QPalette::Link, QColor(42, 130, 218));
-    // palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    // palette.setColor(QPalette::HighlightedText, Qt::black);
-    // a.setPalette(palette);
+#if 0
 
-    // MainWindow window;
-    // window.show();
+    // // 设置应用样式
+    a.setStyle("Fusion");
+    // // 设置调色板
+    QPalette palette;
+    palette.setColor(QPalette::Window, QColor(53,53,53));
+    palette.setColor(QPalette::WindowText, Qt::white);
+    palette.setColor(QPalette::Base, QColor(25,25,25));
+    palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
+    palette.setColor(QPalette::ToolTipBase, Qt::white);
+    palette.setColor(QPalette::ToolTipText, Qt::white);
+    palette.setColor(QPalette::Text, Qt::white);
+    palette.setColor(QPalette::Button, QColor(53,53,53));
+    palette.setColor(QPalette::ButtonText, Qt::white);
+    palette.setColor(QPalette::BrightText, Qt::red);
+    palette.setColor(QPalette::Link, QColor(42, 130, 218));
+    palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    palette.setColor(QPalette::HighlightedText, Qt::black);
+    a.setPalette(palette);
+
+    MainWindow window;
+    window.show();
+
+#endif
 
     // deepseekTalk dp;
     // dp.show();
+
+#if 0
 
     // 动画功能类
     // 注册自定义属性类型
     qRegisterMetaType<qreal>("qreal");
 
     // // 创建并显示主窗口
-    // MyAnimationDemo demo;
-    // demo.show();
-    // demo.colorAnimation(demo, Qt::red, Qt::blue, 1000 , nullptr);
+    MyAnimationDemo demo;
+    demo.show();
+    demo.colorAnimation(demo, Qt::red, Qt::blue, 1000 , nullptr);
 
-    // widgetTest wtest;
-    // wtest.show();
-    // AnimationDemo::Animationinstance().slideAnimation(wtest.getpushButton());
-    // QThread::sleep(10);
-    // AnimationDemo::Animationinstance().bounceAnimation(wtest.getpushButton_2());
-    // QThread::sleep(1);
-    // AnimationDemo::Animationinstance().colorAnimation(wtest.getpushButton_3());
-    // QThread::sleep(1);
-    // AnimationDemo::Animationinstance().fadeAnimation(wtest.getpushButton_4(), true);
-    // QThread::sleep(1);
-    // AnimationDemo::Animationinstance().complexAnimation(wtest.getpushButton_5());
-    // _sleep(1);
+    widgetTest wtest;
+    wtest.show();
+    AnimationDemo::Animationinstance().slideAnimation(wtest.getpushButton());
+    QThread::sleep(10);
+    AnimationDemo::Animationinstance().bounceAnimation(wtest.getpushButton_2());
+    QThread::sleep(1);
+    AnimationDemo::Animationinstance().colorAnimation(wtest.getpushButton_3());
+    QThread::sleep(1);
+    AnimationDemo::Animationinstance().fadeAnimation(wtest.getpushButton_4(), true);
+    QThread::sleep(1);
+    AnimationDemo::Animationinstance().complexAnimation(wtest.getpushButton_5());
+    _sleep(1);
 
-    // 时间日期天气
-    // DateTime today;
-    // today.show();
+#endif
 
-    // // 父窗口
-    // QWidget *parentWidget = new QWidget;
-    // parentWidget->setWindowTitle("父窗口");
-    // parentWidget->resize(800, 600);
 
-    // // 创建子窗口（实际是 QWidget）
-    // QWidget *childWidget = new QWidget(parentWidget);  // 关键：指定父对象
-    // childWidget->setWindowTitle("子窗口");
-    // childWidget->setStyleSheet("background-color: lightblue;");
-    // childWidget->setMinimumSize(400, 300);
+#if 0
 
-    // // 使用布局管理器
-    // QVBoxLayout *layout = new QVBoxLayout(parentWidget);
-    // layout->addWidget(childWidget);  // 将子窗口添加到布局
+    时间日期天气
+    DateTime today;
+    today.show();
 
-    // parentWidget->show();
+    // 父窗口
+    QWidget *parentWidget = new QWidget;
+    parentWidget->setWindowTitle("父窗口");
+    parentWidget->resize(800, 600);
 
-    // Weather guangzhou;
-    // guangzhou.show();
+    // 创建子窗口（实际是 QWidget）
+    QWidget *childWidget = new QWidget(parentWidget);  // 关键：指定父对象
+    childWidget->setWindowTitle("子窗口");
+    childWidget->setStyleSheet("background-color: lightblue;");
+    childWidget->setMinimumSize(400, 300);
+
+    // 使用布局管理器
+    QVBoxLayout *layout = new QVBoxLayout(parentWidget);
+    layout->addWidget(childWidget);  // 将子窗口添加到布局
+
+    parentWidget->show();
+
+    Weather guangzhou;
+    guangzhou.show();
+
+#endif
     return a.exec();
 }
