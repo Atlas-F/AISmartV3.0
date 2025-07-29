@@ -22,6 +22,8 @@
 #include <QPainterPath>
 #include <functional>
 
+#include <QShortcut>
+
 deepseekTalk::deepseekTalk(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::deepseekTalk)
@@ -69,6 +71,9 @@ deepseekTalk::deepseekTalk(QWidget *parent)
     connect(this, &deepseekTalk::requestAnimation,
             &AnimationDemo::Animationinstance(), &AnimationDemo::slideAnimation);
 
+    // 在构造函数中添加
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Return), ui->usertext);
+    connect(shortcut, &QShortcut::activated, ui->send, &QPushButton::click);
 }
 
 

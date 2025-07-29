@@ -14,9 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -32,9 +30,6 @@ public:
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_2;
     QTextEdit *dpsktext;
-    QVBoxLayout *verticalLayout_2;
-    QLabel *label;
-    QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
     QTextEdit *usertext;
     QPushButton *send;
@@ -43,7 +38,7 @@ public:
     {
         if (deepseekTalk->objectName().isEmpty())
             deepseekTalk->setObjectName("deepseekTalk");
-        deepseekTalk->resize(785, 626);
+        deepseekTalk->resize(1104, 868);
         deepseekTalk->setStyleSheet(QString::fromUtf8("QPushButton\n"
 "{\n"
 "	border-width:20px;\n"
@@ -87,8 +82,6 @@ public:
 "{\n"
 "	border-width:30px;\n"
 "	border-color:#1E90FF;\n"
-"	background-color:#FF00FF;\n"
-"\n"
 "	padding: 20px;\n"
 "	color:#white;\n"
 "}\n"
@@ -99,7 +92,7 @@ public:
 "{\n"
 "\n"
 "	background-color:black;\n"
-"	Font-size:20px;\n"
+"	Font-size:15px;\n"
 "	color:#00FF00;\n"
 "	border-radius:50px;\n"
 "\n"
@@ -113,10 +106,10 @@ public:
 "	border-width:15px;\n"
 "	border-style:ridge;\n"
 "	border-color:#00BFFF;\n"
-"	bord"
-                        "er-radius:30px;\n"
-"	background-color:#00BFFF;\n"
-"	Font-size:20px;\n"
+"	border-radius:30px;\n"
+"	background-colo"
+                        "r:black;\n"
+"	Font-size:15px;\n"
 "	color:#00FF00;\n"
 "	outline-color:red;\n"
 "	outline-width:20px;\n"
@@ -179,26 +172,7 @@ public:
 
         horizontalLayout_2->addWidget(dpsktext);
 
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName("verticalLayout_2");
-        label = new QLabel(groupBox);
-        label->setObjectName("label");
-        label->setPixmap(QPixmap(QString::fromUtf8(":/pic/aseprite-0002.png")));
-        label->setScaledContents(true);
-        label->setAlignment(Qt::AlignmentFlag::AlignCenter);
-
-        verticalLayout_2->addWidget(label);
-
-        verticalSpacer = new QSpacerItem(20, 228, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        verticalLayout_2->addItem(verticalSpacer);
-
-        verticalLayout_2->setStretch(0, 1);
-
-        horizontalLayout_2->addLayout(verticalLayout_2);
-
         horizontalLayout_2->setStretch(0, 2);
-        horizontalLayout_2->setStretch(1, 1);
 
         verticalLayout_3->addLayout(horizontalLayout_2);
 
@@ -246,7 +220,6 @@ public:
         deepseekTalk->setWindowTitle(QCoreApplication::translate("deepseekTalk", "Form", nullptr));
         groupBox->setTitle(QString());
         dpsktext->setPlaceholderText(QCoreApplication::translate("deepseekTalk", "\345\260\217\346\235\216\346\255\243\345\234\250\344\270\212\347\272\277\344\270\255\357\274\214\350\257\267\347\250\215\345\220\216\343\200\202\343\200\202\343\200\202", nullptr));
-        label->setText(QString());
         send->setText(QString());
     } // retranslateUi
 

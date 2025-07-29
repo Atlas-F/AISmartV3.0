@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>626</height>
+    <width>1104</width>
+    <height>868</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,8 +56,6 @@ QPushButton:hover
 {
 	border-width:30px;
 	border-color:#1E90FF;
-	background-color:#FF00FF;
-
 	padding: 20px;
 	color:#white;
 }
@@ -68,7 +66,7 @@ QTextEdit#dpsktext
 {
 
 	background-color:black;
-	Font-size:20px;
+	Font-size:15px;
 	color:#00FF00;
 	border-radius:50px;
 
@@ -83,8 +81,8 @@ QTextEdit#usertext
 	border-style:ridge;
 	border-color:#00BFFF;
 	border-radius:30px;
-	background-color:#00BFFF;
-	Font-size:20px;
+	background-color:black;
+	Font-size:15px;
 	color:#00FF00;
 	outline-color:red;
 	outline-width:20px;
@@ -143,46 +141,13 @@ QTextEdit#usertext
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="6,1">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2">
           <item>
            <widget class="QTextEdit" name="dpsktext">
             <property name="placeholderText">
              <string>小李正在上线中，请稍后。。。</string>
             </property>
            </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="pixmap">
-               <pixmap resource="resources.qrc">:/pic/aseprite-0002.png</pixmap>
-              </property>
-              <property name="scaledContents">
-               <bool>true</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignmentFlag::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Orientation::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>228</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
           </item>
          </layout>
         </item>
@@ -223,8 +188,6 @@ QTextEdit#usertext
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
