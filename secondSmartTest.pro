@@ -25,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     CommandSystem.h \
+    CommandSystemMap.h \
     RuleEngine.h \
     animationdemo.h \
     cameracontroller.h \

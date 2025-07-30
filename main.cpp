@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     commandSystem.initialize();
     // 创建主窗口
     QWidget window;
-    window.setWindowTitle("Qt 命令系统");
+    window.setWindowTitle("Command Box");
     window.resize(600, 400);
 
     // 创建布局
@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
     commandSystem.outputArea->setReadOnly(true);
     layout->addWidget(commandSystem.outputArea);
 
-    commandSystem.outputArea2 = new QTextEdit;
-    commandSystem.outputArea2->setReadOnly(true);
-    layout->addWidget(commandSystem.outputArea2);
+    // commandSystem.outputArea2 = new QTextEdit;
+    // commandSystem.outputArea2->setReadOnly(true);
+    // layout->addWidget(commandSystem.outputArea2);
 
     // 输入区域
     commandSystem.inputField = new QLineEdit;
@@ -79,19 +79,20 @@ int main(int argc, char *argv[])
     layout->addWidget(commandSystem.inputField);
 
     // 按钮
-    QPushButton *executeButton = new QPushButton("执行");
-    layout->addWidget(executeButton);
+    commandSystem.executeButton = new QPushButton("执行");
+    layout->addWidget(commandSystem.executeButton);
 
     // 状态标签
-    QLabel *statusLabel = new QLabel("就绪");
-    layout->addWidget(statusLabel);
+    commandSystem.statusLabel = new QLabel("就绪");
+    layout->addWidget(commandSystem.statusLabel);
 
 
     // commandSystem.show();
     // 赋值给局部变量，用于捕获列表 ，捕获列表支支持局部变量，不支持对象.成员方式
     QTextEdit* outputArea = commandSystem.outputArea;
     QLineEdit* inputField = commandSystem.inputField;
-
+    QPushButton * executeButton = commandSystem.executeButton;
+    QLabel * statusLabel = commandSystem.statusLabel;
     // 连接信号
     commandSystem.conncommandResult = QObject::connect(&commandSystem, &CommandSystem::commandResult,
                      [outputArea, statusLabel](const QString& result) {
@@ -109,27 +110,19 @@ int main(int argc, char *argv[])
     commandSystem.connclicked = QObject::connect(executeButton, &QPushButton::clicked, [&]() {
         QString input = inputField->text().trimmed();
         if (!input.isEmpty()) {
-            outputArea->append("> " + input);
+            outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
+            // outputArea->append(input.toUtf8() + "\r\n");
+            // 关键！！！！！
             commandSystem.processInput(input);
             inputField->clear();
+            // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
+
         }
     });
 
     // 回车键执行
     // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
     QObject::connect(inputField, &QLineEdit::returnPressed, executeButton, &QPushButton::click);
-
-    // process = new QProcess(this);
-
-    // // 连接信号
-    // connect(process, &QProcess::readyReadStandardOutput, [=](){
-    //     append(process->readAllStandardOutput());
-    // });
-
-    // connect(process, &QProcess::readyReadStandardError, [=](){
-    //     append("<span style='color:red'>" +
-    //            process->readAllStandardError() + "</span>");
-    // });
 
     window.show();
 
@@ -221,5 +214,6 @@ int main(int argc, char *argv[])
     guangzhou.show();
 
 #endif
+    qDebug() << "准备进入事件循环";
     return a.exec();
 }

@@ -6,6 +6,10 @@
 
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QPushButton>
+#include <QLabel>
+
+// #include "terminalwidget.h"
 
 
 
@@ -19,18 +23,22 @@ class CommandSystem : public QObject
     Q_OBJECT
 
 public:
+    explicit CommandSystem(QObject *parent = nullptr);
 
     qint64 pid = 0;
 
     QTextEdit *outputArea;
     QTextEdit *outputArea2;
     QLineEdit *inputField;
-    explicit CommandSystem(QObject *parent = nullptr);
+    QPushButton *executeButton;
+    QLabel *statusLabel;
+
 
     QMetaObject::Connection conncommandResult;
     QMetaObject::Connection connerrorOccurred;
     QMetaObject::Connection connclicked;
 
+    // TerminalWidget * terminaltest;
 
     // // 新增交互式命令执行方法
     // void executeInteractiveCommand(const QString& command);

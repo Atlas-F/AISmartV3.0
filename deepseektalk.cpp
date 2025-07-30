@@ -30,6 +30,7 @@ deepseekTalk::deepseekTalk(QWidget *parent)
     , request(url)
 {
     ui->setupUi(this);
+    qDebug() << "UI初始化完成，控件数量：" << this->children().size();
     QString apikey = "sk-f84e2f1fd5ce46a68e66043059696a6d";
     QUrl url = QString("https://api.deepseek.com/chat/completions");
 

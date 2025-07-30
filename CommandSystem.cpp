@@ -1,4 +1,5 @@
 ﻿#include "CommandSystem.h"
+#include "CommandSystemMap.h"
 #include <QProcess>
 #include <QFile>
 #include <QDir>
@@ -36,6 +37,9 @@
 
 
 #include "terminalwidget.h"
+#include "deepseektalk.h"
+
+
 
 // 检查 PID 是否存在
 // bool isProcessAlive(qint64 pid) {
@@ -181,137 +185,39 @@ CommandSystem::CommandSystem(QObject *parent)
     });
 
 
-    // 测试，打开单独窗口
-    // childwindowtest = new QWidget(); // 在堆上创建，指定父对象为当前窗口
-    // childwindowtest->setWindowTitle("Qt 命令系统");
-    // childwindowtest->resize(600, 400);
-
-
-//     // 仅用作测试，如何打开终端时，重定向到文本框，关闭时正常显示
-//     // 创建主窗口
-//     QWidget window;
-//     window.setWindowTitle("Qt 命令系统");
-//     window.resize(600, 400);
-
-//     // 创建布局
-//     QVBoxLayout *layout = new QVBoxLayout(&window);
-
-//     // 输出区域
-//     QTextEdit *outputArea = new QTextEdit;
-//     outputArea->setReadOnly(true);
-//     layout->addWidget(outputArea);
-
-//     // 输入区域
-//     QLineEdit *inputField = new QLineEdit;
-//     inputField->setPlaceholderText("请输入指令...");
-//     layout->addWidget(inputField);
-
-//     // 按钮
-//     QPushButton *executeButton = new QPushButton("执行");
-//     layout->addWidget(executeButton);
-
-//     // 状态标签
-//     QLabel *statusLabel = new QLabel("就绪");
-//     layout->addWidget(statusLabel);
-
-
-//     // 创建命令系统
-//     CommandSystem commandSystem;
-//     commandSystem.initialize();
-//     // commandSystem.show();
-
-//     // 连接信号
-//     QObject::connect(&commandSystem, &CommandSystem::commandResult,
-//                      [outputArea, statusLabel](const QString& result) {
-//                          outputArea->append("结果: " + result);
-//                          statusLabel->setText("命令执行成功");
-//                      });
-
-//     QObject::connect(&commandSystem, &CommandSystem::errorOccurred,
-//                      [outputArea, statusLabel](const QString& error) {
-//                          outputArea->append("错误: " + error);
-//                          statusLabel->setText("发生错误");
-//                      });
-
-//     // 执行按钮点击事件
-//     QObject::connect(executeButton, &QPushButton::clicked, [&]() {
-//         QString input = inputField->text().trimmed();
-//         if (!input.isEmpty()) {
-//             outputArea->append("> " + input);
-//             commandSystem.processInput(input);
-//             inputField->clear();
-//         }
-//     });
-
-//     // 回车键执行
-//     // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
-//     QObject::connect(inputField, &QLineEdit::returnPressed, executeButton, &QPushButton::click);
-
-//     process = new QProcess(this);
-
-//     // 连接信号
-//     connect(process, &QProcess::readyReadStandardOutput, [=](){
-//         outputArea->append(process->readAllStandardOutput());
-//     });
-
-//     connect(process, &QProcess::readyReadStandardError, [=](){
-//         outputArea->append("<span style='color:red'>" +
-//                process->readAllStandardError() + "</span>");
-//     });
-
-//     window.show();
-
-
-
-//     process = new QProcess(this);
-
-//     // // 连接信号
-//     // connect(process, &QProcess::readyReadStandardOutput, [=](){
-//     //     append(process->readAllStandardOutput());
-//     // });
-
-//     // connect(process, &QProcess::readyReadStandardError, [=](){
-//     //     append("<span style='color:red'>" +
-//     //            process->readAllStandardError() + "</span>");
-//     // });
-
-// // 启动命令解释器
-// // #ifdef Q_OS_WIN
-//     process->start("cmd.exe");
-
 }
 
 
 // 2. 应用名称到命令的映射
-// 将map设为全局，而非设置
-const QMap<QString, QStringList> CommandSystem::appMap = []{
-        QMap<QString, QStringList> map;
-        // map.insert("notepad", {"D:/Notepad++/notepad.exe"});
-        map.insert("notepad", {"D:/Notepad++/notepad++.exe"});      // 这种方式可以在新窗口中打开程序
-        // map.insert("thonny", {"D:/Thonny/thonny.exe"});      // 直接在输入框键入完整路径的方式速度更快，非常快
+// 将map设为全局，而非设置/*
+// const QMap<QString, QStringList> CommandSystem::appMap = []{
+//         QMap<QString, QStringList> map;
+//         // map.insert("notepad", {"D:/Notepad++/notepad.exe"});
+//         map.insert("notepad", {"D:/Notepad++/notepad++.exe"});      // 这种方式可以在新窗口中打开程序
+//         // map.insert("thonny", {"D:/Thonny/thonny.exe"});      // 直接在输入框键入完整路径的方式速度更快，非常快
 
-        map.insert("Steam", {"C:/Users/Public/Desktop/Steam.exe"});     // 快捷方式无法执行
-        map.insert("ak", {"D:/AKPlatform/AK.exe"});
-        map.insert("微信开发者工具", {"D:/微信web开发者工具/微信开发者工具.exe"});
-        map.insert("uv4", {"D:/Keil_v5/UV4/UV4.exe"});
+//         map.insert("Steam", {"C:/Users/Public/Desktop/Steam.exe"});     // 快捷方式无法执行
+//         map.insert("ak", {"D:/AKPlatform/AK.exe"});
+//         map.insert("微信开发者工具", {"D:/微信web开发者工具/微信开发者工具.exe"});
+//         map.insert("uv4", {"D:/Keil_v5/UV4/UV4.exe"});
 
 
-        // 跨平台命令定义
-#ifdef Q_OS_WIN
-        map.insert("计算器", {"cmd.exe", "/c", "start", "calc.exe"});
-        map.insert("记事本", {"cmd.exe", "/c", "start", "notepad.exe"});
-        map.insert("终端", {"cmd.exe"});
-#elif defined(Q_OS_MACOS)
-        map.insert("计算器", {"open", "-a", "Calculator"});
-        map.insert("记事本", {"open", "-a", "TextEdit"});
-        map.insert("终端", {"open", "-a", "Terminal"});
-#else
-        map.insert("计算器", {"gnome-calculator"});ne
-        map.insert("记事本", {"gedit"});
-        map.insert("终端", {"gnome-terminal"});
-#endif
-        return map;
-    }();
+//         // 跨平台命令定义
+// #ifdef Q_OS_WIN
+//         map.insert("计算器", {"cmd.exe", "/c", "start", "calc.exe"});
+//         map.insert("记事本", {"cmd.exe", "/c", "start", "notepad.exe"});
+//         map.insert("终端", {"cmd.exe"});
+// #elif defined(Q_OS_MACOS)
+//         map.insert("计算器", {"open", "-a", "Calculator"});
+//         map.insert("记事本", {"open", "-a", "TextEdit"});
+//         map.insert("终端", {"open", "-a", "Terminal"});
+// #else
+//         map.insert("计算器", {"gnome-calculator"});ne
+//         map.insert("记事本", {"gedit"});
+//         map.insert("终端", {"gnome-terminal"});
+// #endif
+//         return map;
+//     }();
 
 void CommandSystem::initialize()
 {
@@ -416,9 +322,18 @@ void CommandSystem::openApplication(const QString& appName)
         return;
     }
 
-    // 2. 应用名称到命令的映射
+    if( appName == "deepseek" )
+    {
+        deepseekTalk * dp = new deepseekTalk(nullptr);
+        dp->show();
+
+        qApp->processEvents();  // 作用是什么？
+    }
+
+//    2. 应用名称到命令的映射
 
     // 3. 处理预定义应用
+    // 不在映射表的程序，用完整路径可直接启动，用文件名则需依赖环境变量。
     if (appMap.contains(appName)) {
         const QStringList& command = appMap[appName];
 
@@ -427,18 +342,10 @@ void CommandSystem::openApplication(const QString& appName)
             // executeInteractiveCommand(command[0], command.mid(1));
 
             // 使用终端映射时，能否将输入与输出分别重定向？
+            TerminalWidget * terminaltest = new TerminalWidget(this);
 
-            // 创建字体对象并设置属性
-            // QFont font;
-            // font.setFamily("Consolas"); // 字体家族（如"Consolas"、"SimHei"、"Arial"）
-            // font.setPointSize(12);      // 字体大小（磅值）
-            // font.setBold(true);         // 加粗
-            // font.setItalic(true);       // 斜体
-            // font.setUnderline(true);    // 下划线
-            // font.setFixedPitch(true);   // 等宽字体（终端/代码编辑器常用）
-            // color:#00ff00;
-
-            TerminalWidget * terminaltest = new TerminalWidget();
+            // this->terminaltest ;
+            // terminaltest = new TerminalWidget(this)
 
             // 1. 设置字体样式（家族、大小、加粗等）
             QFont font;
@@ -458,59 +365,32 @@ void CommandSystem::openApplication(const QString& appName)
             // palette.setColor(QPalette::HighlightedText, QColor("red"));
             terminaltest->setPalette(palette);   // 应用调色板到控件
 
-            // 应用字体到QTextEdit
-            // terminaltest.setFont(font);
-            // terminaltest.show();
-
-            // QObject::disconnect(conncommandResult);
-            // QObject::disconnect(connerrorOccurred);
-            // QObject::disconnect(connclicked);
-
 
             // TerminalWidget * terminaltest = new TerminalWidget();
             terminaltest->setFont(font);
-            terminaltest->show();
-            // 在Qt窗口类中
-            // QWidget newwin;
-            // 1. 将process改为指针，避免局部变量生命周期问题和复制操作
-            // QProcess* process = new QProcess(this);  // 父对象设为this，自动管理生命周期
-            // // 2. 确保outputEdit正确初始化（建议作为类成员，避免重复创建）
-            // QTextEdit* outputEdit = new QTextEdit();
-            // outputEdit->setGeometry(10, 10, 600, 400);  // 简单设置位置和大小
-            // outputEdit->show();
-            // // 3. 关联信号槽，注意lambda捕获方式
-            // connect(process, &QProcess::readyReadStandardOutput, this, [=]() {
-            //     // 由于process是指针，捕获的是指针（非const），可正常调用非const成员函数
-            //     QByteArray output = process->readAllStandardOutput();
-            //     outputEdit->append(output);  // 显示输出
-            // });
-            // // 4. 启动cmd并执行命令
-            // // process->start("cmd.exe", QStringList() << "/c" << "dir");
-            //  process->start("cmd.exe"); // 没有按键映射
+            // terminaltest->show();
 
-            // 或者不创建对象，直接使用重定向到文本框
-            // 或者取消输入框，直接做一个文本框，即是输入，也是输出？
-            // 还是说进程间阻塞？冲突？
+            // 刷新连接，执行按钮点击事件, 当进入终端时，断开原来的连接，重新赋值，刷新，将输入按键时的内容重载，重新设置，与terminaltest的案件虫子啊和信誉举行同，重新设置后发送到终端
+            disconnect(this->connclicked);
 
+            // 断开连接后，要监测终端进程状态，当退出时 ，重新连接
 
-
-
-
-            // process = new QProcess(this);
-            // // 连接信号
-            // connect(process, &QProcess::readyReadStandardOutput, [=](){
-            //     outputArea->append(process->readAllStandardOutput());
+            // this->connclicked = QObject::connect(this->executeButton, &QPushButton::clicked, [&]() {
+            //     QString input = inputField->text().trimmed();
+            //     if (!input.isEmpty()) {
+            //         // outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
+            //         // outputArea->append(input.toUtf8() + "\r\n");
+            //         // 关键！！！！！
+            //         // this->processInput(input);
+            //         terminaltest->process->write(input.toUtf8() + "\r\n");
+            //         inputField->clear();
+            //     }
             // });
 
-            // connect(process, &QProcess::readyReadStandardError, [=](){
-            //     outputArea->append("<span style='color:red'>" +
-            //            process->readAllStandardError() + "</span>");
-            // });
 
-            // connect(process, &)
+            // 暂时未设置连接复原，仅做测试
 
-            // 将输出设置为私有变量、将输入转发到终端,使用信号方式
-            // return;
+
         }
 
         // 使用startDetached确保程序独立运行
@@ -531,7 +411,7 @@ void CommandSystem::openApplication(const QString& appName)
         return;
     }
 
-    // 4. 尝试直接执行命令
+    // 4. 尝试直接执行命令：环境变量中已配置路径的程序
     bool success = QProcess::startDetached(appName, {}, QDir::homePath());
 
     if (success) {
@@ -540,11 +420,6 @@ void CommandSystem::openApplication(const QString& appName)
         emit errorOccurred(tr("无法执行命令: %1").arg(appName));
     }
 
-    // 测试，打开单独窗口
-    // childwindowtest = new QWidget(); // 在堆上创建，指定父对象为当前窗口
-    // childwindowtest->setWindowTitle("Qt 命令系统");
-    // childwindowtest->resize(600, 400);
-    childwindowtest->show();
 
 }
 
