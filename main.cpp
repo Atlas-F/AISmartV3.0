@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     // 创建主窗口
     QWidget window;
     window.setWindowTitle("Command Box");
-    window.resize(600, 400);
+    window.resize(800, 600);
 
     // 创建布局
     QVBoxLayout *layout = new QVBoxLayout(&window);
@@ -86,6 +86,37 @@ int main(int argc, char *argv[])
     commandSystem.statusLabel = new QLabel("就绪");
     layout->addWidget(commandSystem.statusLabel);
 
+#if 0
+
+    window.setStyleSheet("background-color:#0D0221;");
+
+    commandSystem.inputField->setStyleSheet("border:5px ridge #B3E5FC;"
+                                            "border-radius:10px;"
+                                            "font-size:15px;"
+                                            "color:#05D9E8;"
+                                            "background-color:black;"
+                                            );
+
+    commandSystem.outputArea->setStyleSheet("border:5px ridge #8A2BE2;"
+                                            "border-radius:10px;"
+                                            "font-size:15px;"
+                                            "color:#00FF00;"
+                                            "background-color:black;"
+                                            );
+
+    commandSystem.executeButton->setStyleSheet("border:5px ridge #FF2A6D;"
+                                               "border-radius:10px;"
+                                               "font-size:15px;"
+                                               "color:#00FF00;"
+                                               "background-color:black;"
+                                               );
+
+    commandSystem.statusLabel->setStyleSheet(
+                                             "font-size:15px;"
+                                             "color:white;"
+                                             "background-color:black;"
+                                             );
+#endif
 
     // commandSystem.show();
     // 赋值给局部变量，用于捕获列表 ，捕获列表支支持局部变量，不支持对象.成员方式

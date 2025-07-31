@@ -11,6 +11,8 @@
 
 // #include "terminalwidget.h"
 
+// #include "deepseektalk.h"
+
 
 
 /**
@@ -32,6 +34,9 @@ public:
     QLineEdit *inputField;
     QPushButton *executeButton;
     QLabel *statusLabel;
+
+    // deepseekTalk* dp = nullptr; // 添加成员变量
+
 
 
     QMetaObject::Connection conncommandResult;

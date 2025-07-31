@@ -8,6 +8,7 @@
 
 #include "../../../deepseektalk.h"
 #include <QtNetwork/QSslError>
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -49,7 +50,10 @@ template <> constexpr inline auto deepseekTalk::qt_create_metaobjectdata<qt_meta
         "duration",
         "AnimationCallback",
         "callback",
-        "on_send_clicked"
+        "on_send_clicked",
+        "CommandSystem*",
+        "command",
+        "sendClicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -59,7 +63,13 @@ template <> constexpr inline auto deepseekTalk::qt_create_metaobjectdata<qt_meta
             { 0x80000000 | 8, 9 },
         }}),
         // Slot 'on_send_clicked'
-        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void(CommandSystem *)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 11, 12 },
+        }}),
+        // Slot 'sendClicked'
+        QtMocHelpers::SlotData<void(CommandSystem *)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 11, 12 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -84,7 +94,8 @@ void deepseekTalk::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->requestAnimation((*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QRect>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QRect>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[4])),(*reinterpret_cast< std::add_pointer_t<AnimationCallback>>(_a[5]))); break;
-        case 1: _t->on_send_clicked(); break;
+        case 1: _t->on_send_clicked((*reinterpret_cast< std::add_pointer_t<CommandSystem*>>(_a[1]))); break;
+        case 2: _t->sendClicked((*reinterpret_cast< std::add_pointer_t<CommandSystem*>>(_a[1]))); break;
         default: ;
         }
     }
@@ -96,6 +107,20 @@ void deepseekTalk::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QWidget* >(); break;
+            }
+            break;
+        case 1:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< CommandSystem* >(); break;
+            }
+            break;
+        case 2:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< CommandSystem* >(); break;
             }
             break;
         }
@@ -125,14 +150,14 @@ int deepseekTalk::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

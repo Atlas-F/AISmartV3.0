@@ -184,6 +184,24 @@ CommandSystem::CommandSystem(QObject *parent)
         emit commandResult(tr("未识别的命令: %1").arg(input));
     });
 
+    // inputField->setStyleSheet(R"(
+
+    //             QLineEdit
+    //             {
+    //                 border-width:5px;
+    //                 border-style:ridge;
+    //                 border-color:#00BFFF;
+    //                 border-radius:10px;
+    //                 background-color:black;
+    //                 Font-size:15px;
+    //                 Font-color:#00FF00;
+    //                 // outline-color:red;
+    //                 // outline-width:10px;
+    //                 // padding-width:5px;
+    //                 // padding-color:#1E90FF;
+    //             }
+    //         )");
+
 
 }
 
@@ -290,7 +308,7 @@ void CommandSystem::initialize()
                           [this](const QRegularExpressionMatch&) {
                               QStringList commands;
                               for (const auto& rule : m_ruleEngine->getRules()) {
-                                  commands.append(QString("%1: %2").arg(rule.name).arg(rule.pattern.pattern()));
+                                  commands.append(QString("%1: %2 + ProgramNmae or FileName").arg(rule.name).arg(rule.pattern.pattern()));
                               }
                               emit commandResult(tr("可用命令:\n%1").arg(commands.join("\n")));
                           });
@@ -322,19 +340,49 @@ void CommandSystem::openApplication(const QString& appName)
         return;
     }
 
-    if( appName == "deepseek" )
+    else if( appName == "deepseek" )
     {
-        deepseekTalk * dp = new deepseekTalk(nullptr);
-        dp->show();
+        deepseekTalk * dp = new deepseekTalk(this);
+        // dp->show();
 
         qApp->processEvents();  // 作用是什么？
+
+        disconnect(this->connclicked);
+
+        // 断联后重写连接
+
+        this->connclicked = QObject::connect(executeButton, &QPushButton::clicked, [this, dp]() {
+            QString input = inputField->text().trimmed();
+            if (!input.isEmpty()) {
+                outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
+                // outputArea->append(input.toUtf8() + "\r\n");
+                // 关键！！！！！
+                // this->processInput(input);
+                // if( dp != nullptr && input != "exit")
+                // {
+                //     qDebug() << "deepseek存在222";
+                //     qDebug()<< input;
+                //     dp->sendClicked(this);
+                //     inputField->clear();
+                // }
+                // if( dp == nullptr || input == "exit")
+                // {
+                //     qDebug() << "deepseek不存在";
+                //     delete dp;
+                //     this->processInput(input);
+                // }
+                dp->sendClicked(this);
+                inputField->clear();
+                // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
+            }
+        });
     }
 
 //    2. 应用名称到命令的映射
 
     // 3. 处理预定义应用
     // 不在映射表的程序，用完整路径可直接启动，用文件名则需依赖环境变量。
-    if (appMap.contains(appName)) {
+    else if(appMap.contains(appName)) {
         const QStringList& command = appMap[appName];
 
         // 特殊处理终端应用
@@ -411,15 +459,17 @@ void CommandSystem::openApplication(const QString& appName)
         return;
     }
 
-    // 4. 尝试直接执行命令：环境变量中已配置路径的程序
-    bool success = QProcess::startDetached(appName, {}, QDir::homePath());
+    else
+    {
+        // 4. 尝试直接执行命令：环境变量中已配置路径的程序
+        bool success = QProcess::startDetached(appName, {}, QDir::homePath());
 
-    if (success) {
-        emit commandResult(tr("已执行命令: %1").arg(appName));
-    } else {
-        emit errorOccurred(tr("无法执行命令: %1").arg(appName));
+        if (success) {
+            emit commandResult(tr("已执行命令: %1").arg(appName));
+        } else {
+            emit errorOccurred(tr("无法执行命令: %1").arg(appName));
+        }
     }
-
 
 }
 

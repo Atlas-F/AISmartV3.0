@@ -10,6 +10,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "CommandSystem.h"
+
 namespace Ui {
 class deepseekTalk;
 }
@@ -18,19 +20,25 @@ class deepseekTalk : public QWidget
 {
     Q_OBJECT
 
+    // explicit deepseekTalk(QWidget *parent = nullptr);
 public:
-    explicit deepseekTalk(QWidget *parent = nullptr);
+
+    explicit deepseekTalk (CommandSystem * command = nullptr);
     ~deepseekTalk();
-    void readData();
-    void Makeuphuman(QJsonObject &rootObj, QJsonArray &mesgArray);
-    void MakeupAI(QJsonObject &rootObj, QJsonArray &mesgArray);
+    void readData(CommandSystem* command);
+    void Makeuphuman(QJsonObject &rootObj, QJsonArray &mesgArray, CommandSystem* command);
+    void MakeupAI(QJsonObject &rootObj, QJsonArray &mesgArray, CommandSystem* command);
     QString apikey = "sk-f84e2f1fd5ce46a68e66043059696a6d";
     QUrl url = QString("https://api.deepseek.com/chat/completions");
     // QNetworkRequest request("https://api.deepseek.com/chat/completions");
+public slots:
+    void on_send_clicked(CommandSystem* command);
+    void sendClicked(CommandSystem* command);
+
 private slots:
 
 
-    void on_send_clicked();
+
 
 private:
     Ui::deepseekTalk *ui;
@@ -85,7 +93,6 @@ private:
     Ui::deepseekTalk *ui;
 
 };
-
 
 
 
