@@ -1,7 +1,7 @@
-release/CommandSystem.o
 release/RuleEngine.o
 release/animationdemo.o
 release/cameracontroller.o
+release/commandbox.o
 release/datetime.o
 release/deepseektalk.o
 release/flipwidget.o
@@ -12,10 +12,10 @@ release/terminalwidget.o
 release/transformwidget.o
 release/widgettest.o
 release/qrc_resources.o
-release/moc_CommandSystem.o
 release/moc_RuleEngine.o
 release/moc_animationdemo.o
 release/moc_cameracontroller.o
+release/moc_commandbox.o
 release/moc_datetime.o
 release/moc_deepseektalk.o
 release/moc_flipwidget.o

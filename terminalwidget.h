@@ -6,8 +6,12 @@
 #include <QKeyEvent>
 #include <QTextBlock>
 
-#include "CommandSystem.h"
+// #include "CommandSystem.h"
 #include <QDebug>
+#include "commandbox.h"
+
+#include "ui_commandbox.h"
+
 
 
 // 似乎可以通过让该类继承自commandsystem，然后指定输出为outputarea
@@ -21,7 +25,7 @@ class TerminalWidget : public QTextEdit {
 
 public:
     QProcess* process;
-    TerminalWidget(CommandSystem* parent = nullptr){
+    TerminalWidget(CommandBox* parent = nullptr){
 
         resize(600, 400);
         setStyleSheet(R"(
@@ -54,12 +58,12 @@ public:
         connect(process, &QProcess::readyReadStandardOutput, this, [=]() {
             // 由于process是指针，捕获的是指针（非const），可正常调用非const成员函数
             output = process->readAllStandardOutput();
-            parent->outputArea->append(output);     // 尝试将command对象传入，然后再引用成员变量outputarea
+            parent->ui->outputArea->append(output);     // 尝试将command对象传入，然后再引用成员变量outputarea
             // append(output);  // 显示输出
             // outputEdit->append(output);  // 显示输出
         });
         connect(process, &QProcess::readyReadStandardError, this, [=]() {
-            parent->outputArea->append(process->readAllStandardError());
+            parent->ui->outputArea->append(process->readAllStandardError());
             // append(process->readAllStandardError()); // 显示错误信息
         });
         // 4. 启动cmd并执行命令
@@ -72,26 +76,26 @@ public:
         // connect(parent->inputField, &QLineEdit::returnPressed,
         //         this, &TerminalWidget::onInputEntered);
 
-        connect(parent->inputField, &QLineEdit::returnPressed, this, [=]() {
+        connect(parent->ui->inputField, &QLineEdit::returnPressed, this, [=]() {
             if( process->state() == QProcess::Running )
             {
                 // 获取输入框中的命令
-                QString command = parent->inputField->text();
+                QString command = parent->ui->inputField->text();
                 // 向进程写入命令（核心语句保持不变）
                 process->write(command.toUtf8() + "\r\n");
                 // 可选：清空输入框
-                parent->inputField->clear();
+                parent->ui->inputField->clear();
             }
             if( process->state() != QProcess::Running )
             {
-                parent->connclicked = QObject::connect(parent->executeButton, &QPushButton::clicked, [&]() {
-                    QString input = parent->inputField->text().trimmed();
+                parent->connclicked = QObject::connect(parent->ui->executeButton, &QPushButton::clicked, [&]() {
+                    QString input = parent->ui->inputField->text().trimmed();
                     if (!input.isEmpty()) {
                         // parent->outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
                         // outputArea->append(input.toUtf8() + "\r\n");
                         // 关键！！！！！
                         parent->processInput(input);
-                        parent->inputField->clear();
+                        parent->ui->inputField->clear();
                         // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
 
                     }

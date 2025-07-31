@@ -1,5 +1,6 @@
 ﻿#include "deepseektalk.h"
 #include "ui_deepseektalk.h"
+#include "ui_commandbox.h"
 #include "animationdemo.h"
 
 #include <QJsonDocument>
@@ -32,15 +33,11 @@
 //     , request(url)
 
 
-deepseekTalk::deepseekTalk(CommandSystem* command)
+deepseekTalk::deepseekTalk(CommandBox* command)
     : ui(new Ui::deepseekTalk)
     , request(url)
 {
     ui->setupUi(this);
-
-
-
-
 
     qDebug() << "UI初始化完成，控件数量：" << this->children().size();
     QString apikey = "sk-f84e2f1fd5ce46a68e66043059696a6d";
@@ -96,7 +93,7 @@ deepseekTalk::~deepseekTalk()
 }
 
 
-void deepseekTalk::readData(CommandSystem* command)
+void deepseekTalk::readData(CommandBox* command)
 {
     qDebug()<< "按钮点击3";
     QNetworkReply * reply = qobject_cast<QNetworkReply*>(sender());
@@ -120,17 +117,17 @@ void deepseekTalk::readData(CommandSystem* command)
 
     QString content = message["content"].toString();
     qDebug()<< "按钮点击6";
-    command->outputArea->setText(content);
+    command->ui->outputArea->setText(content);
     qDebug()<< "按钮点击7";
 }
 
-void deepseekTalk::Makeuphuman(QJsonObject &rootObj, QJsonArray &mesgArray, CommandSystem* command)
+void deepseekTalk::Makeuphuman(QJsonObject &rootObj, QJsonArray &mesgArray, CommandBox* command)
 {
     QJsonObject objHuman;
     qDebug()<< QStringLiteral("按钮点击12");
     objHuman["role"] = "user";
     qDebug()<< "按钮点击13";
-    objHuman["content"] = command->inputField->text();
+    objHuman["content"] = command->ui->inputField->text();
     // objHuman["content"] = ui->usertext->toPlainText();
 qDebug()<< "按钮点击14";
     mesgArray.append(objHuman);
@@ -139,7 +136,7 @@ qDebug()<< "按钮点击15";
 qDebug()<< "按钮点击16";
 }
 
-void deepseekTalk::MakeupAI(QJsonObject &rootObj, QJsonArray &mesgArray, CommandSystem* command)
+void deepseekTalk::MakeupAI(QJsonObject &rootObj, QJsonArray &mesgArray, CommandBox* command)
 {
     QJsonObject objAI;
     objAI["role"] = "assistant";
@@ -153,7 +150,7 @@ void deepseekTalk::MakeupAI(QJsonObject &rootObj, QJsonArray &mesgArray, Command
 
 // 发送按钮点击事件
 // 默认时无参的吗？如果带参数是不是算作重载了
-void deepseekTalk::on_send_clicked(CommandSystem* command)
+void deepseekTalk::on_send_clicked(CommandBox* command)
 {
     // 参数：
     //
@@ -194,9 +191,9 @@ qDebug()<< "按钮点击8";
 }
 
 
-void deepseekTalk::sendClicked(CommandSystem* command)
+void deepseekTalk::sendClicked(CommandBox* command)
 {
-    if( command->inputField->text() == "exit" )
+    if( command->ui->inputField->text() == "exit" )
     {
         // 退出
         // 重连connect

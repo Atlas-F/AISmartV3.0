@@ -13,10 +13,14 @@
 // #include "RuleEngine.h"
 #include <iostream>
 #include <cstdlib> // 用于系统命令
-#include "CommandSystem.h"
+// #include "CommandSystem.h"
+
+#include "commandbox.h"
 
 #include "terminalwidget.h"
 #include <fstream>
+
+#include "ui_commandbox.h"
 
 #ifdef _WIN32
 #include <windows.h> // Windows特定功能
@@ -54,97 +58,99 @@ int main(int argc, char *argv[])
     // 仅用作测试，如何打开终端时，重定向到文本框，关闭时正常显示
     // 命令盒
     // 创建命令系统
-    CommandSystem commandSystem;
-    commandSystem.initialize();
+    CommandBox commandbox;
+    commandbox.initialize();
     // 创建主窗口
-    QWidget window;
-    window.setWindowTitle("Command Box");
-    window.resize(800, 600);
+    // QWidget window;
+    // window.setWindowTitle("Command Box");
+    // window.resize(800, 600);
 
     // 创建布局
-    QVBoxLayout *layout = new QVBoxLayout(&window);
+    // QVBoxLayout *layout = new QVBoxLayout(&window);
 
+
+    // 新的控件覆盖了原本的ui控件，所以删除掉
     // 输出区域
-    commandSystem.outputArea = new QTextEdit;
-    commandSystem.outputArea->setReadOnly(true);
-    layout->addWidget(commandSystem.outputArea);
+/*    commandbox.ui->outputArea = new QTextEdit;
+    commandbox.ui->outputArea->setReadOnly(true);  */     //为什么设置了只读
+    // layout->addWidget(commandbox.outputArea);
 
     // commandSystem.outputArea2 = new QTextEdit;
     // commandSystem.outputArea2->setReadOnly(true);
     // layout->addWidget(commandSystem.outputArea2);
 
     // 输入区域
-    commandSystem.inputField = new QLineEdit;
-    commandSystem.inputField->setPlaceholderText("请输入指令...");
-    layout->addWidget(commandSystem.inputField);
+    // commandbox.ui->inputField = new QLineEdit;
+    // commandbox.ui->inputField->setPlaceholderText("请输入指令...");
+    // layout->addWidget(commandbox.ui->inputField);
 
     // 按钮
-    commandSystem.executeButton = new QPushButton("执行");
-    layout->addWidget(commandSystem.executeButton);
+    // commandbox.ui->executeButton = new QPushButton("执行");
+    // layout->addWidget(commandbox.ui->executeButton);
 
     // 状态标签
-    commandSystem.statusLabel = new QLabel("就绪");
-    layout->addWidget(commandSystem.statusLabel);
+    // commandbox.ui->statusLabel = new QLabel("就绪");
+    // layout->addWidget(commandbox.ui->statusLabel);
 
-#if 1
+#if 0
 
-    window.setStyleSheet("background-color:#0D0221;");
+    // window.setStyleSheet("background-color:#0D0221;");
 
-    commandSystem.inputField->setStyleSheet("border:5px ridge #B3E5FC;"
+    commandbox.ui->inputField->setStyleSheet("border:5px ridge #B3E5FC;"
                                             "border-radius:10px;"
                                             "font-size:15px;"
                                             "color:#05D9E8;"
                                             "background-color:black;"
                                             );
 
-    commandSystem.outputArea->setStyleSheet("border:5px ridge #8A2BE2;"
+    commandbox.ui->outputArea->setStyleSheet("border:5px ridge #8A2BE2;"
                                             "border-radius:10px;"
                                             "font-size:15px;"
                                             "color:#00FF00;"
                                             "background-color:black;"
                                             );
 
-    commandSystem.executeButton->setStyleSheet("border:5px ridge #FF2A6D;"
+    commandbox.ui->executeButton->setStyleSheet("border:5px ridge #FF2A6D;"
                                                "border-radius:10px;"
                                                "font-size:15px;"
                                                "color:#00FF00;"
                                                "background-color:black;"
                                                );
 
-    commandSystem.statusLabel->setStyleSheet(
+    commandbox.ui->statusLabel->setStyleSheet(
                                              "font-size:15px;"
                                              "color:white;"
                                              "background-color:black;"
                                              );
-#endif
+
 
     // commandSystem.show();
     // 赋值给局部变量，用于捕获列表 ，捕获列表支支持局部变量，不支持对象.成员方式
-    QTextEdit* outputArea = commandSystem.outputArea;
-    QLineEdit* inputField = commandSystem.inputField;
-    QPushButton * executeButton = commandSystem.executeButton;
-    QLabel * statusLabel = commandSystem.statusLabel;
+    QTextEdit* outputArea = commandbox.ui->outputArea;
+    QLineEdit* inputField = commandbox.ui->inputField;
+    QPushButton * executeButton = commandbox.ui->executeButton;
+    QLabel * statusLabel = commandbox.ui->statusLabel;
     // 连接信号
-    commandSystem.conncommandResult = QObject::connect(&commandSystem, &CommandSystem::commandResult,
+    commandbox.conncommandResult = QObject::connect(&commandbox, &CommandBox::commandResult,
                      [outputArea, statusLabel](const QString& result) {
                          outputArea->append("结果: " + result);
                          statusLabel->setText("命令执行成功");
                      });
 
-    commandSystem.connerrorOccurred = QObject::connect(&commandSystem, &CommandSystem::errorOccurred,
+    commandbox.connerrorOccurred = QObject::connect(&commandbox, &CommandBox::errorOccurred,
                      [outputArea, statusLabel](const QString& error) {
                          outputArea->append("错误: " + error);
                          statusLabel->setText("发生错误");
                      });
 
     // 执行按钮点击事件
-    commandSystem.connclicked = QObject::connect(executeButton, &QPushButton::clicked, [&]() {
+    commandbox.connclicked = QObject::connect(executeButton, &QPushButton::clicked, [&]() {
         QString input = inputField->text().trimmed();
         if (!input.isEmpty()) {
             outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
             // outputArea->append(input.toUtf8() + "\r\n");
             // 关键！！！！！
-            commandSystem.processInput(input);
+            commandbox.processInput(input);
             inputField->clear();
             // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
 
@@ -154,8 +160,9 @@ int main(int argc, char *argv[])
     // 回车键执行
     // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
     QObject::connect(inputField, &QLineEdit::returnPressed, executeButton, &QPushButton::click);
-
-    window.show();
+#endif
+    // window.show();
+    commandbox.show();
 
 #endif
 

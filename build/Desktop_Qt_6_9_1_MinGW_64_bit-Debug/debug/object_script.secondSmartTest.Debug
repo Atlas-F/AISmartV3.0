@@ -1,7 +1,7 @@
-debug/CommandSystem.o
 debug/RuleEngine.o
 debug/animationdemo.o
 debug/cameracontroller.o
+debug/commandbox.o
 debug/datetime.o
 debug/deepseektalk.o
 debug/flipwidget.o
@@ -12,10 +12,10 @@ debug/terminalwidget.o
 debug/transformwidget.o
 debug/widgettest.o
 debug/qrc_resources.o
-debug/moc_CommandSystem.o
 debug/moc_RuleEngine.o
 debug/moc_animationdemo.o
 debug/moc_cameracontroller.o
+debug/moc_commandbox.o
 debug/moc_datetime.o
 debug/moc_deepseektalk.o
 debug/moc_flipwidget.o

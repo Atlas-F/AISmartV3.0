@@ -1,14 +1,14 @@
 ﻿#ifndef COMMANDSYSTEMMAP_H
 #define COMMANDSYSTEMMAP_H
 
-#include "CommandSystem.h"
+// #include "CommandSystem.h"
 
-
+#include "commandbox.h"
 // 不在映射表的程序，用完整路径可直接启动，用文件名则需依赖环境变量。
 // 手动添加时，注意斜杠，win默认反斜杠，要改成正斜杠
 // 2. 应用名称到命令的映射
 // 将map设为全局，而非设置
-const QMap<QString, QStringList> CommandSystem::appMap = []{
+const QMap<QString, QStringList> CommandBox::appMap = []{
     QMap<QString, QStringList> map;
     // map.insert("notepad", {"D:/Notepad++/notepad.exe"});
     map.insert("notepad", {"D:/Notepad++/notepad++.exe"});      // 这种方式可以在新窗口中打开程序
