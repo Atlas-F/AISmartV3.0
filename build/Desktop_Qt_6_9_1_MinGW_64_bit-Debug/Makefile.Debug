@@ -5378,7 +5378,17 @@ debug/terminalwidget.o: ../../terminalwidget.cpp ../../terminalwidget.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
+		ui_commandbox.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QVariant \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QApplication \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qboxlayout.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlayout.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlayoutitem.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/terminalwidget.o ../../terminalwidget.cpp
 
 debug/transformwidget.o: ../../transformwidget.cpp ../../transformwidget.h \

@@ -6,12 +6,54 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
-    <height>780</height>
+    <width>703</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget
+{
+	background-color:#0D0221;
+}
+
+
+   QLineEdit
+{
+	border:5px ridge #B3E5FC;
+                                            border-radius:10px;
+                                            font-size:15px;
+                                            color:#05D9E8;
+                                            background-color:black;
+}
+QPushButton
+{
+	border:5px ridge #FF2A6D;
+                                               border-radius:10px;
+                                               font-size:15px;
+                                               color:#00FF00;
+                                               background-color:black;
+}
+
+QTextEdit
+{
+	border:5px ridge #8A2BE2;
+                                            border-radius:10px;
+                                            font-size:15px;
+                                            color:#00FF00;
+                                            background-color:black;
+}
+
+QLabel
+{
+	 font-size:15px;
+                                             color:white;
+                                             background-color:black;
+}
+
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -26,7 +68,11 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QTextEdit" name="status"/>
+        <widget class="QTextEdit" name="status">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout" stretch="1,2,1">

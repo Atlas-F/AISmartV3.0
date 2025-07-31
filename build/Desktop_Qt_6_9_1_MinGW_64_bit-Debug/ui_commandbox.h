@@ -38,7 +38,48 @@ public:
     {
         if (CommandBox->objectName().isEmpty())
             CommandBox->setObjectName("CommandBox");
-        CommandBox->resize(1025, 780);
+        CommandBox->resize(703, 583);
+        CommandBox->setStyleSheet(QString::fromUtf8("QWidget\n"
+"{\n"
+"	background-color:#0D0221;\n"
+"}\n"
+"\n"
+"\n"
+"   QLineEdit\n"
+"{\n"
+"	border:5px ridge #B3E5FC;\n"
+"                                            border-radius:10px;\n"
+"                                            font-size:15px;\n"
+"                                            color:#05D9E8;\n"
+"                                            background-color:black;\n"
+"}\n"
+"QPushButton\n"
+"{\n"
+"	border:5px ridge #FF2A6D;\n"
+"                                               border-radius:10px;\n"
+"                                               font-size:15px;\n"
+"                                               color:#00FF00;\n"
+"                                               background-color:black;\n"
+"}\n"
+"\n"
+"QTextEdit\n"
+"{\n"
+"	border:5px ridge #8A2BE2;\n"
+"                                            border-radius:10px;\n"
+"                                            font-size:15px;\n"
+"                                            color:#00FF00;\n"
+"                                            "
+                        "background-color:black;\n"
+"}\n"
+"\n"
+"QLabel\n"
+"{\n"
+"	 font-size:15px;\n"
+"                                             color:white;\n"
+"                                             background-color:black;\n"
+"}\n"
+"\n"
+""));
         verticalLayout_3 = new QVBoxLayout(CommandBox);
         verticalLayout_3->setObjectName("verticalLayout_3");
         verticalLayout_2 = new QVBoxLayout();
@@ -53,6 +94,7 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         status = new QTextEdit(CommandBox);
         status->setObjectName("status");
+        status->setReadOnly(true);
 
         horizontalLayout->addWidget(status);
 
