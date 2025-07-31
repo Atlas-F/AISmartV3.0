@@ -342,6 +342,7 @@ void CommandSystem::openApplication(const QString& appName)
 
     else if( appName == "deepseek" )
     {
+#if 0
         deepseekTalk * dp = new deepseekTalk(this);
         // dp->show();
 
@@ -351,31 +352,119 @@ void CommandSystem::openApplication(const QString& appName)
 
         // 断联后重写连接
 
-        this->connclicked = QObject::connect(executeButton, &QPushButton::clicked, [this, dp]() {
+        // this->connclicked = QObject::connect(executeButton, &QPushButton::clicked, [this, dp]() {
+        //     QString input = inputField->text().trimmed();
+        //     if (!input.isEmpty()) {
+        //         outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
+        //         // outputArea->append(input.toUtf8() + "\r\n");
+        //         // 关键！！！！！
+        //         // this->processInput(input);
+        //         // if( dp != nullptr && input != "exit")
+        //         // {
+        //         //     qDebug() << "deepseek存在222";
+        //         //     qDebug()<< input;
+        //         //     dp->sendClicked(this);
+        //         //     inputField->clear();
+        //         // }
+        //         // if( dp == nullptr || input == "exit")
+        //         // {
+        //         //     qDebug() << "deepseek不存在";
+        //         //     delete dp;
+        //         //     this->processInput(input);
+        //         // }
+        //         dp->sendClicked(this);
+        //         inputField->clear();
+        //         // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
+        //     }
+        // });
+        QObject::connect(executeButton, &QPushButton::clicked, [this, dp]() {
             QString input = inputField->text().trimmed();
             if (!input.isEmpty()) {
                 outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
                 // outputArea->append(input.toUtf8() + "\r\n");
                 // 关键！！！！！
                 // this->processInput(input);
-                // if( dp != nullptr && input != "exit")
-                // {
-                //     qDebug() << "deepseek存在222";
-                //     qDebug()<< input;
-                //     dp->sendClicked(this);
-                //     inputField->clear();
-                // }
-                // if( dp == nullptr || input == "exit")
-                // {
-                //     qDebug() << "deepseek不存在";
-                //     delete dp;
-                //     this->processInput(input);
-                // }
-                dp->sendClicked(this);
-                inputField->clear();
+                qDebug()<< input;
+
+                if( input == "exit" || dp == NULL )
+                {
+                    qDebug() << "deepseek不存在";
+                    dp->isNull = !dp->isNull;
+                    delete dp;
+                    // dp = nullptr;
+                    // 执行按钮点击事件
+                    this->connclicked = QObject::connect(executeButton, &QPushButton::clicked, [this, dp]() {
+                        QString input = inputField->text().trimmed();
+                        if (!input.isEmpty()) {
+                            outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
+                            // outputArea->append(input.toUtf8() + "\r\n");
+                            // 关键！！！！！
+                            this->processInput(input);
+                            inputField->clear();
+                            // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
+
+                        }
+                    });
+                }
+                if( dp )
+                {
+                    qDebug() << "deepseek存在222";
+                    qDebug()<< input;
+
+                    dp->sendClicked(this);      // exit后就没有dp了，访问空指针！！！段错误
+
+                    qDebug() << "deepseek deepseekdeepseekdeepseekdeepseekEXIT！！！";
+
+                    inputField->clear();
+                }
+
+                // dp->sendClicked(this);
+                // inputField->clear();
                 // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
             }
         });
+#endif
+        deepseekTalk * dp = new deepseekTalk(this);
+
+        // 保存原始连接的副本
+        auto originalHandler = [this]() {
+            QString input = inputField->text().trimmed();
+            if (!input.isEmpty()) {
+                outputArea->append("> " + input);
+                this->processInput(input);
+                inputField->clear();
+            }
+        };
+
+        // 断开原始连接
+        disconnect(connclicked);
+
+        // 设置 deepseek 模式下的新连接
+        connclicked = QObject::connect(executeButton, &QPushButton::clicked, this, [this, dp, originalHandler]() {
+            QString input = inputField->text().trimmed();
+            if (!input.isEmpty()) {
+                outputArea->append("> " + input);
+
+                if (input == "exit") {
+                    // 1. 断开 deepseek 连接
+                    disconnect(connclicked);
+                    // 2. 删除 deepseek 实例
+                    delete dp;
+                    // dp = nullptr;
+                    // 3. 恢复原始连接
+                    connclicked = QObject::connect(executeButton, &QPushButton::clicked, this, originalHandler);
+                    inputField->clear();
+                    return;
+                }
+
+                // 非 exit 命令，转发给 deepseek
+                if (dp) {
+                    dp->sendClicked(this);
+                }
+                inputField->clear();
+            }
+        });
+
     }
 
 //    2. 应用名称到命令的映射

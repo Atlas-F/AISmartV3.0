@@ -22,7 +22,7 @@ class deepseekTalk : public QWidget
 
     // explicit deepseekTalk(QWidget *parent = nullptr);
 public:
-
+    bool isNull = false;
     explicit deepseekTalk (CommandSystem * command = nullptr);
     ~deepseekTalk();
     void readData(CommandSystem* command);
@@ -72,6 +72,7 @@ class ConfigRequest
 public:
     ConfigRequest();
     ~ConfigRequest();
+
 
 
 private:

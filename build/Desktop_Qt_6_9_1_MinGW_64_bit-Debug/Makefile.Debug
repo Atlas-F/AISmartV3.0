@@ -402,6 +402,12 @@ debug/moc_CommandSystem.cpp: ../../CommandSystem.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
 		debug/moc_predefs.h \
 		D:/QTcreator/6.9.1/mingw_64/bin/moc.exe
 	'D:\QTcreator\6.9.1\mingw_64\bin\moc.exe' $(DEFINES) --include E:/QTprojects/secondSmartTest/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/debug/moc_predefs.h -ID:/QTcreator/6.9.1/mingw_64/mkspecs/win32-g++ -IE:/QTprojects/secondSmartTest -ID:/QTcreator/6.9.1/mingw_64/include -ID:/QTcreator/6.9.1/mingw_64/include/QtMultimediaWidgets -ID:/QTcreator/6.9.1/mingw_64/include/QtMultimedia -ID:/QTcreator/6.9.1/mingw_64/include/QtWidgets -ID:/QTcreator/6.9.1/mingw_64/include/QtGui -ID:/QTcreator/6.9.1/mingw_64/include/QtNetwork -ID:/QTcreator/6.9.1/mingw_64/include/QtCore -I. -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -ID:/QTcreator/Tools/mingw1310_64/x86_64-w64-mingw32/include ../../CommandSystem.h -o debug/moc_CommandSystem.cpp
@@ -1457,6 +1463,35 @@ debug/moc_deepseektalk.cpp: ../../deepseektalk.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QJsonArray \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
+		../../CommandSystem.h \
+		../../RuleEngine.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QVector \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qvector.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QRegularExpression \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QMap \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QProcess \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qprocess.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QFile \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfile.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfiledevice.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QDebug \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qframe.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextdocument.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextoption.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextformat.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
 		debug/moc_predefs.h \
 		D:/QTcreator/6.9.1/mingw_64/bin/moc.exe
 	'D:\QTcreator\6.9.1\mingw_64\bin\moc.exe' $(DEFINES) --include E:/QTprojects/secondSmartTest/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/debug/moc_predefs.h -ID:/QTcreator/6.9.1/mingw_64/mkspecs/win32-g++ -IE:/QTprojects/secondSmartTest -ID:/QTcreator/6.9.1/mingw_64/include -ID:/QTcreator/6.9.1/mingw_64/include/QtMultimediaWidgets -ID:/QTcreator/6.9.1/mingw_64/include/QtMultimedia -ID:/QTcreator/6.9.1/mingw_64/include/QtWidgets -ID:/QTcreator/6.9.1/mingw_64/include/QtGui -ID:/QTcreator/6.9.1/mingw_64/include/QtNetwork -ID:/QTcreator/6.9.1/mingw_64/include/QtCore -I. -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -ID:/QTcreator/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -ID:/QTcreator/Tools/mingw1310_64/x86_64-w64-mingw32/include ../../deepseektalk.h -o debug/moc_deepseektalk.cpp
@@ -2835,6 +2870,12 @@ debug/CommandSystem.o: ../../CommandSystem.cpp ../../CommandSystem.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
 		../../CommandSystemMap.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QDir \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qdir.h \
@@ -2856,12 +2897,6 @@ debug/CommandSystem.o: ../../CommandSystem.cpp ../../CommandSystem.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlayout.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlayoutitem.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
 		../../terminalwidget.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QKeyEvent \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QTextBlock \
@@ -3975,34 +4010,48 @@ debug/deepseektalk.o: ../../deepseektalk.cpp ../../deepseektalk.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QJsonArray \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
+		../../CommandSystem.h \
+		../../RuleEngine.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QVector \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qvector.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QRegularExpression \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QMap \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QProcess \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qprocess.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QFile \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfile.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfiledevice.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QDebug \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qframe.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextdocument.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextoption.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextformat.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
 		ui_deepseektalk.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QIcon \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QApplication \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qframe.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qboxlayout.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlayout.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlayoutitem.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextdocument.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextoption.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QVBoxLayout \
 		../../animationdemo.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QPropertyAnimation \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qpropertyanimation.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qvariantanimation.h \
@@ -4027,6 +4076,7 @@ debug/deepseektalk.o: ../../deepseektalk.cpp ../../deepseektalk.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QVector3D \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QJsonDocument \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QJsonValue \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QStringLiteral \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QShortcut \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qshortcut.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/deepseektalk.o ../../deepseektalk.cpp
@@ -4736,6 +4786,26 @@ debug/main.o: ../../main.cpp ../../mainwin.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QJsonArray \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
+		../../CommandSystem.h \
+		../../RuleEngine.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QVector \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qvector.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QRegularExpression \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QMap \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QProcess \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qprocess.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QFile \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfile.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfiledevice.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextoption.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextformat.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
 		../../datetime.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QDate \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QTime \
@@ -4766,8 +4836,6 @@ debug/main.o: ../../main.cpp ../../mainwin.h \
 		../../transformwidget.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QPainter \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpainter.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextoption.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpen.h \
 		../../flipwidget.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QVector3D \
 		../../widgettest.h \
@@ -4775,24 +4843,6 @@ debug/main.o: ../../main.cpp ../../mainwin.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QApplication \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QThread \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		../../CommandSystem.h \
-		../../RuleEngine.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QVector \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qvector.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QRegularExpression \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QMap \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QProcess \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qprocess.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QFile \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfile.h \
-		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfiledevice.h \
 		../../terminalwidget.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QKeyEvent \
 		D:/QTcreator/6.9.1/mingw_64/include/QtGui/QTextBlock \
@@ -5306,7 +5356,13 @@ debug/terminalwidget.o: ../../terminalwidget.cpp ../../terminalwidget.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/qfiledevice.h \
 		D:/QTcreator/6.9.1/mingw_64/include/QtCore/QDebug \
 		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/QLabel \
+		D:/QTcreator/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
+		D:/QTcreator/6.9.1/mingw_64/include/QtGui/qpicture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/terminalwidget.o ../../terminalwidget.cpp
 
 debug/transformwidget.o: ../../transformwidget.cpp ../../transformwidget.h \

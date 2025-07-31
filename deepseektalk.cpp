@@ -7,6 +7,8 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
+#include <QStringLiteral>
+
 
 #include <QWidget>
 #include <QPushButton>
@@ -125,7 +127,7 @@ void deepseekTalk::readData(CommandSystem* command)
 void deepseekTalk::Makeuphuman(QJsonObject &rootObj, QJsonArray &mesgArray, CommandSystem* command)
 {
     QJsonObject objHuman;
-    qDebug()<< "按钮点击12";
+    qDebug()<< QStringLiteral("按钮点击12");
     objHuman["role"] = "user";
     qDebug()<< "按钮点击13";
     objHuman["content"] = command->inputField->text();

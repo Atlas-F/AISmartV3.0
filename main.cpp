@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
 # if 1
     // 仅用作测试，如何打开终端时，重定向到文本框，关闭时正常显示
-
+    // 命令盒
     // 创建命令系统
     CommandSystem commandSystem;
     commandSystem.initialize();
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     commandSystem.statusLabel = new QLabel("就绪");
     layout->addWidget(commandSystem.statusLabel);
 
-#if 0
+#if 1
 
     window.setStyleSheet("background-color:#0D0221;");
 
@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
     // w.show();
 
 #if 0
-
+    // 摄像头
     // // 设置应用样式
     a.setStyle("Fusion");
     // // 设置调色板
