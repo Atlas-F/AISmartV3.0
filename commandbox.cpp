@@ -1,4 +1,6 @@
-﻿#include "CommandSystem.h"
+﻿#include "commandbox.h"
+#include "ui_commandbox.h"
+
 #include "CommandSystemMap.h"
 #include <QProcess>
 #include <QFile>
@@ -41,17 +43,6 @@
 
 
 
-// 检查 PID 是否存在
-// bool isProcessAlive(qint64 pid) {
-
-//     QProcess tasklist;
-//     tasklist.start("tasklist", {"-FI", QString("PID eq %1").arg(pid)});
-//     tasklist.waitForFinished();
-//     QString output = tasklist.readAll();
-//     // 若输出中包含 PID 对应的进程名，则存在
-//     return output.contains(QString::number(pid));
-// }
-
 
 bool isProcessAlive(qint64 pid) {
     // 创建进程快照
@@ -76,168 +67,60 @@ bool isProcessAlive(qint64 pid) {
 }
 
 
-// 函数：尝试终止指定PID的进程，并返回是否成功
-bool killProcessByPid(qint64 pid) {
-    // 创建QProcess实例
-    QProcess taskkill;
 
-    // 启动taskkill命令，参数：强制终止（/F）、指定PID（/PID）
-    taskkill.start("taskkill", {"/F", "/PID", QString::number(pid)});
-
-    // 等待命令执行完成（超时时间设为5000毫秒，即5秒）
-    bool finished = taskkill.waitForFinished(5000);
-
-    // 如果命令未正常完成（超时或异常）
-    if (!finished) {
-        qDebug() << "taskkill命令执行超时或异常，错误类型：" << taskkill.errorString();
-        return false;
-    }
-
-    // 读取标准错误输出（taskkill的错误信息通常在这里）
-    QByteArray errorOutput = taskkill.readAllStandardError();
-    // 读取标准输出（部分信息可能在这里）
-    QByteArray standardOutput = taskkill.readAllStandardOutput();
-
-    // 输出捕获到的信息（便于调试）
-    if (!standardOutput.isEmpty()) {
-        qDebug() << "taskkill标准输出：" << standardOutput;
-    }
-    if (!errorOutput.isEmpty()) {
-        qDebug() << "taskkill错误输出：" << errorOutput;
-    }
-
-    // 获取命令退出码
-    int exitCode = taskkill.exitCode();
-    qDebug() << "taskkill退出码：" << exitCode;
-
-    // 判断是否成功（exitCode为0表示成功）
-    if (exitCode == 0) {
-        qDebug() << "进程终止成功，PID：" << pid;
-        return true;
-    } else {
-        qDebug() << "进程终止失败，PID：" << pid;
-        return false;
-    }
-}
-
-
-// // 交互式命令执行（新增）
-// void CommandSystem::executeInteractiveCommand(const QString& program, const QStringList& arguments)
-// {
-//     if (m_interactiveProcess) {
-//         m_interactiveProcess->kill();
-//         delete m_interactiveProcess;
-//     }
-
-//     m_interactiveProcess = new QProcess(this);
-//     m_interactiveProcess->setProgram(program);
-//     m_interactiveProcess->setArguments(arguments);
-//     m_interactiveProcess->setWorkingDirectory(QDir::homePath());
-
-//     // 连接信号
-//     connect(m_interactiveProcess, &QProcess::readyReadStandardOutput, [this]() {
-//         emit commandOutput(m_interactiveProcess->readAllStandardOutput());
-//     });
-
-//     connect(m_interactiveProcess, &QProcess::readyReadStandardError, [this]() {
-//         emit commandOutput("[ERROR] " + m_interactiveProcess->readAllStandardError());
-//     });
-
-//     connect(m_interactiveProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-//             [this](int code, QProcess::ExitStatus) {
-//                 emit commandFinished(code);
-//                 delete m_interactiveProcess;
-//                 m_interactiveProcess = nullptr;
-//             });
-
-//     // 启动进程
-//     m_interactiveProcess->start();
-
-//     if (!m_interactiveProcess->waitForStarted(3000)) {
-//         emit errorOccurred(tr("终端启动失败"));
-//         delete m_interactiveProcess;
-//         m_interactiveProcess = nullptr;
-//     } else {
-//         emit commandResult(tr("终端已启动"));
-//     }
-// }
-
-// // 向进程输入命令（新增）
-// void CommandSystem::writeToProcess(const QString& command)
-// {
-//     if (m_interactiveProcess && m_interactiveProcess->state() == QProcess::Running) {
-//         m_interactiveProcess->write(command.toUtf8() + "\n");
-//     } else {
-//         emit errorOccurred(tr("没有活动的终端会话"));
-//     }
-// }
-
-// CommandSystem::CommandSystem(QObject *parent)
-//     : QObject(parent), m_ruleEngine(new RuleEngine(this))
-
-
-CommandSystem::CommandSystem(QObject *parent)
-    : QObject(parent), m_ruleEngine(new RuleEngine(this))
+CommandBox::CommandBox(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::CommandBox)
+    , m_ruleEngine(new RuleEngine(this))
 {
+    ui->setupUi(this);
+
     // 连接规则引擎的未匹配信号
     connect(m_ruleEngine, &RuleEngine::noMatchFound, this, [this](const QString& input){
         emit commandResult(tr("未识别的命令: %1").arg(input));
     });
+    // this->ui->outputArea, statusLabel
 
-    // inputField->setStyleSheet(R"(
+    this->conncommandResult = QObject::connect(this, &CommandBox::commandResult,
+                                                    [this](const QString& result) {
+                                                        this->ui->outputArea->append("结果: " + result);
+                                                        this->ui->statusLabel->setText("命令执行成功");
+                                                    });
 
-    //             QLineEdit
-    //             {
-    //                 border-width:5px;
-    //                 border-style:ridge;
-    //                 border-color:#00BFFF;
-    //                 border-radius:10px;
-    //                 background-color:black;
-    //                 Font-size:15px;
-    //                 Font-color:#00FF00;
-    //                 // outline-color:red;
-    //                 // outline-width:10px;
-    //                 // padding-width:5px;
-    //                 // padding-color:#1E90FF;
-    //             }
-    //         )");
+    this->connerrorOccurred = QObject::connect(this, &CommandBox::errorOccurred,
+                                                    [this](const QString& error) {
+                                                        this->ui->outputArea->append("错误: " + error);
+                                                        this->ui->statusLabel->setText("发生错误");
+                                                    });
+
+    // 执行按钮点击事件
+    this->connclicked = QObject::connect(this->ui->executeButton, &QPushButton::clicked, [this]() {
+        QString input = this->ui->inputField->text().trimmed();
+        if (!input.isEmpty()) {
+            this->ui->outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
+            // outputArea->append(input.toUtf8() + "\r\n");
+            // 关键！！！！！
+            this->processInput(input);
+            this->ui->inputField->clear();
+            // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
+
+        }
+    });
+
+    // 回车键执行
+    // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
+    QObject::connect(this->ui->inputField, &QLineEdit::returnPressed, this->ui->executeButton, &QPushButton::click);
 
 
 }
 
-
-// 2. 应用名称到命令的映射
-// 将map设为全局，而非设置/*
-// const QMap<QString, QStringList> CommandSystem::appMap = []{
-//         QMap<QString, QStringList> map;
-//         // map.insert("notepad", {"D:/Notepad++/notepad.exe"});
-//         map.insert("notepad", {"D:/Notepad++/notepad++.exe"});      // 这种方式可以在新窗口中打开程序
-//         // map.insert("thonny", {"D:/Thonny/thonny.exe"});      // 直接在输入框键入完整路径的方式速度更快，非常快
-
-//         map.insert("Steam", {"C:/Users/Public/Desktop/Steam.exe"});     // 快捷方式无法执行
-//         map.insert("ak", {"D:/AKPlatform/AK.exe"});
-//         map.insert("微信开发者工具", {"D:/微信web开发者工具/微信开发者工具.exe"});
-//         map.insert("uv4", {"D:/Keil_v5/UV4/UV4.exe"});
+CommandBox::~CommandBox()
+{
+    delete ui;
+}
 
 
-//         // 跨平台命令定义
-// #ifdef Q_OS_WIN
-//         map.insert("计算器", {"cmd.exe", "/c", "start", "calc.exe"});
-//         map.insert("记事本", {"cmd.exe", "/c", "start", "notepad.exe"});
-//         map.insert("终端", {"cmd.exe"});
-// #elif defined(Q_OS_MACOS)
-//         map.insert("计算器", {"open", "-a", "Calculator"});
-//         map.insert("记事本", {"open", "-a", "TextEdit"});
-//         map.insert("终端", {"open", "-a", "Terminal"});
-// #else
-//         map.insert("计算器", {"gnome-calculator"});ne
-//         map.insert("记事本", {"gedit"});
-//         map.insert("终端", {"gnome-terminal"});
-// #endif
-//         return map;
-//     }();
-
-void CommandSystem::initialize()
+void CommandBox::initialize()
 {
     // 添加打开应用程序规则
     m_ruleEngine->addRule("OpenApp",
@@ -315,12 +198,12 @@ void CommandSystem::initialize()
 }
 
 // input是裁剪首尾空格后的输入字符串
-void CommandSystem::processInput(const QString& input)
+void CommandBox::processInput(const QString& input)
 {
     m_ruleEngine->execute(input);
 }
 
-RuleEngine* CommandSystem::ruleEngine() const
+RuleEngine* CommandBox::ruleEngine() const
 {
     return m_ruleEngine;
 }
@@ -328,7 +211,7 @@ RuleEngine* CommandSystem::ruleEngine() const
 
 
 
-void CommandSystem::openApplication(const QString& appName)
+void CommandBox::openApplication(const QString& appName)
 {
     // 1. 浏览器特殊处理
     if (appName == "浏览器") {
@@ -428,11 +311,11 @@ void CommandSystem::openApplication(const QString& appName)
 
         // 保存原始连接的副本
         auto originalHandler = [this]() {
-            QString input = inputField->text().trimmed();
+            QString input = this->ui->inputField->text().trimmed();
             if (!input.isEmpty()) {
-                outputArea->append("> " + input);
+                this->ui->outputArea->append("> " + input);
                 this->processInput(input);
-                inputField->clear();
+                this->ui->inputField->clear();
             }
         };
 
@@ -440,10 +323,10 @@ void CommandSystem::openApplication(const QString& appName)
         disconnect(connclicked);
 
         // 设置 deepseek 模式下的新连接
-        connclicked = QObject::connect(executeButton, &QPushButton::clicked, this, [this, dp, originalHandler]() {
-            QString input = inputField->text().trimmed();
+        connclicked = QObject::connect(this->ui->executeButton, &QPushButton::clicked, this, [this, dp, originalHandler]() {
+            QString input = this->ui->inputField->text().trimmed();
             if (!input.isEmpty()) {
-                outputArea->append("> " + input);
+                this->ui->outputArea->append("> " + input);
 
                 if (input == "exit") {
                     // 1. 断开 deepseek 连接
@@ -452,8 +335,8 @@ void CommandSystem::openApplication(const QString& appName)
                     delete dp;
                     // dp = nullptr;
                     // 3. 恢复原始连接
-                    connclicked = QObject::connect(executeButton, &QPushButton::clicked, this, originalHandler);
-                    inputField->clear();
+                    connclicked = QObject::connect(this->ui->executeButton, &QPushButton::clicked, this, originalHandler);
+                    this->ui->inputField->clear();
                     return;
                 }
 
@@ -461,13 +344,13 @@ void CommandSystem::openApplication(const QString& appName)
                 if (dp) {
                     dp->sendClicked(this);
                 }
-                inputField->clear();
+                this->ui->inputField->clear();
             }
         });
 
     }
 
-//    2. 应用名称到命令的映射
+    //    2. 应用名称到命令的映射
 
     // 3. 处理预定义应用
     // 不在映射表的程序，用完整路径可直接启动，用文件名则需依赖环境变量。
@@ -562,7 +445,7 @@ void CommandSystem::openApplication(const QString& appName)
 
 }
 
-void CommandSystem::CloseApplication(const QString& appName)
+void CommandBox::CloseApplication(const QString& appName)
 {
     int appPid = PIDMap[appName];
 
@@ -622,7 +505,7 @@ void CommandSystem::CloseApplication(const QString& appName)
 
 
 
-void CommandSystem::Openfile(const QString& fileName)
+void CommandBox::Openfile(const QString& fileName)
 {
     // 将本地文件路径转换为 QUrl（自动处理跨平台路径格式）
     QUrl fileUrl = QUrl::fromLocalFile(fileName);
@@ -637,7 +520,7 @@ void CommandSystem::Openfile(const QString& fileName)
     }
 }
 
-void CommandSystem::Closefile(const QString& fileName)
+void CommandBox::Closefile(const QString& fileName)
 {
 
 
@@ -646,7 +529,7 @@ void CommandSystem::Closefile(const QString& fileName)
 }
 
 
-void CommandSystem::createFile(const QString& fileName)
+void CommandBox::createFile(const QString& fileName)
 {
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
@@ -662,7 +545,7 @@ void CloseFile(const QString& fileName)
 
 }
 
-void CommandSystem::searchFiles(const QString& pattern)
+void CommandBox::searchFiles(const QString& pattern)
 {
     QDir currentDir(QDir::currentPath());
     QStringList foundFiles;
@@ -685,7 +568,7 @@ void CommandSystem::searchFiles(const QString& pattern)
     }
 }
 
-void CommandSystem::runSystemCommand(const QString& command)
+void CommandBox::runSystemCommand(const QString& command)
 {
     QProcess process;
     process.start(command);
@@ -710,7 +593,7 @@ void CommandSystem::runSystemCommand(const QString& command)
     }
 }
 
-void CommandSystem::getCurrentTime()
+void CommandBox::getCurrentTime()
 {
     QString currentTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
     emit commandResult(tr("当前时间: %1").arg(currentTime));

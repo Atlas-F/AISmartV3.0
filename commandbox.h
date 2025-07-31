@@ -1,5 +1,7 @@
-﻿#ifndef COMMANDSYSTEM_H
-#define COMMANDSYSTEM_H
+﻿#ifndef COMMANDBOX_H
+#define COMMANDBOX_H
+
+#include <QWidget>
 
 #include "RuleEngine.h"
 #include <QObject>
@@ -9,48 +11,33 @@
 #include <QPushButton>
 #include <QLabel>
 
-// #include "terminalwidget.h"
+namespace Ui {
+class CommandBox;
+}
 
-// #include "deepseektalk.h"
-
-
-
-/**
- * @brief 命令系统类，集成规则引擎并提供具体命令实现
- *
- * 该类封装了各种系统命令的实现，并注册到规则引擎中。  public QObject
- */
-class CommandSystem : public QObject
+class CommandBox : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CommandSystem(QObject *parent = nullptr);
+    explicit CommandBox(QWidget *parent = nullptr);
+    ~CommandBox();
+
+
+    Ui::CommandBox *ui;
 
     qint64 pid = 0;
 
-    QTextEdit *outputArea;
-    QTextEdit *outputArea2;
-    QLineEdit *inputField;
-    QPushButton *executeButton;
-    QLabel *statusLabel;
+    // QTextEdit *outputArea;
+    // QTextEdit *outputArea2;
+    // QLineEdit *inputField;
+    // QPushButton *executeButton;
+    // QLabel *statusLabel;
 
     // deepseekTalk* dp = nullptr; // 添加成员变量
-
-
-
     QMetaObject::Connection conncommandResult;
     QMetaObject::Connection connerrorOccurred;
     QMetaObject::Connection connclicked;
-
-    // TerminalWidget * terminaltest;
-
-    // // 新增交互式命令执行方法
-    // void executeInteractiveCommand(const QString& command);
-    // // 新增命令输入方法
-    // void writeToProcess(const QString& input);
-
-    // void executeInteractiveCommand(const QString& program, const QStringList& arguments);
 
     /**
      * @brief 初始化命令系统
@@ -88,7 +75,7 @@ signals:
     void commandFinished(int exitCode);
 
 private:
-
+    // Ui::CommandBox *ui;
 
 
     static const QMap<QString, QStringList> appMap;
@@ -113,8 +100,6 @@ private:
     RuleEngine* m_ruleEngine; ///< 规则引擎实例
 
     QProcess* m_interactiveProcess = nullptr;  // 保持进程指针
-
-
 };
 
-#endif // COMMANDSYSTEM_H
+#endif // COMMANDBOX_H
