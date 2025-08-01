@@ -1,4 +1,14 @@
-﻿#ifndef DEEPSEEKTALK_H
+﻿/*********************
+ * @file deepseektalk.h
+ * @brief deepseekTalk header file
+ * @author LFG (lfg@.com)
+ * @version 1.0
+ * @date 2025-08-01
+ * 
+ * @copyright Copyright (c) 2025  LFG
+ * 
+ *************************************************/
+#ifndef DEEPSEEKTALK_H
 #define DEEPSEEKTALK_H
 
 #include <QWidget>
@@ -36,18 +46,14 @@ public slots:
     void on_send_clicked(CommandBox* command);
     void sendClicked(CommandBox* command);
 
-private slots:
-
-
-
 
 private:
     Ui::deepseekTalk *ui;
     QNetworkAccessManager manager;
     QNetworkRequest request;
 
-    QJsonObject rootObj;
-    QJsonArray mesgArray;
+    QJsonObject rootObj;    // 消息格式的根对象
+    QJsonArray mesgArray;   // 消息格式的messages消息数组对象
 
     QNetworkReply * reply;
 
@@ -66,6 +72,9 @@ private slots:
 };
 
 // 构造请求体
+/*********************
+ * @brief 废案
+ *************************************************/
 class ConfigRequest
 {
     // Q_OBJECT

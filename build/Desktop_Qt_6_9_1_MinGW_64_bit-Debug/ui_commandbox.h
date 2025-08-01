@@ -38,50 +38,62 @@ public:
     {
         if (CommandBox->objectName().isEmpty())
             CommandBox->setObjectName("CommandBox");
-        CommandBox->resize(703, 583);
+        CommandBox->resize(1021, 703);
         CommandBox->setStyleSheet(QString::fromUtf8("QWidget\n"
 "{\n"
-"	background-color:#0D0221;\n"
+"    background-color:#0D0221;\n"
 "}\n"
 "\n"
 "\n"
 "   QLineEdit\n"
 "{\n"
-"	border:5px ridge #B3E5FC;\n"
-"                                            border-radius:10px;\n"
+"    border:7px ridge #B3E5FC;\n"
+"                                            border-radius:15px;\n"
 "                                            font-size:15px;\n"
 "                                            color:#05D9E8;\n"
 "                                            background-color:black;\n"
 "}\n"
 "QPushButton\n"
 "{\n"
-"	border:5px ridge #FF2A6D;\n"
-"                                               border-radius:10px;\n"
+"    border:7px ridge #FF2A6D;\n"
+"                                               border-radius:15px;\n"
 "                                               font-size:15px;\n"
-"                                               color:#00FF00;\n"
+"                                               color:#05D9E8;\n"
 "                                               background-color:black;\n"
+"}\n"
+"\n"
+"QPushButton:hover\n"
+"{\n"
+"    border:7px ridge #FF2A6D;\n"
+"                                               border-radius:15px;\n"
+"                                               font-size:30px;\n"
+"                                               color:#00FF00;\n"
+"               "
+                        "                                background-color:black;\n"
 "}\n"
 "\n"
 "QTextEdit\n"
 "{\n"
-"	border:5px ridge #8A2BE2;\n"
-"                                            border-radius:10px;\n"
+"    border:7px ridge #8A2BE2;\n"
+"                                            border-radius:15px;\n"
 "                                            font-size:15px;\n"
 "                                            color:#00FF00;\n"
-"                                            "
-                        "background-color:black;\n"
+"                                            background-color:black;\n"
 "}\n"
 "\n"
 "QLabel\n"
 "{\n"
-"	 font-size:15px;\n"
+"     font-size:20px ;\n"
+"     font-style: italic;\n"
 "                                             color:white;\n"
 "                                             background-color:black;\n"
-"}\n"
 "\n"
+"\n"
+"}\n"
 ""));
         verticalLayout_3 = new QVBoxLayout(CommandBox);
         verticalLayout_3->setObjectName("verticalLayout_3");
+        verticalLayout_3->setContentsMargins(1, 1, 1, 1);
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName("verticalLayout_2");
         outputArea = new QTextEdit(CommandBox);
@@ -149,7 +161,8 @@ public:
 
     void retranslateUi(QWidget *CommandBox)
     {
-        CommandBox->setWindowTitle(QCoreApplication::translate("CommandBox", "Form", nullptr));
+        CommandBox->setWindowTitle(QCoreApplication::translate("CommandBox", "Hermes", nullptr));
+        inputField->setPlaceholderText(QCoreApplication::translate("CommandBox", "\350\257\267\350\276\223\345\205\245\346\214\207\344\273\244...", nullptr));
         executeButton->setText(QCoreApplication::translate("CommandBox", "\346\211\247\350\241\214", nullptr));
         statusLabel->setText(QCoreApplication::translate("CommandBox", "\345\260\261\347\273\252", nullptr));
     } // retranslateUi

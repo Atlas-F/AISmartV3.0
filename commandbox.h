@@ -11,6 +11,10 @@
 #include <QPushButton>
 #include <QLabel>
 
+#include <QDateTime>
+
+#include "ui_commandbox.h"
+
 namespace Ui {
 class CommandBox;
 }
@@ -23,6 +27,8 @@ public:
     explicit CommandBox(QWidget *parent = nullptr);
     ~CommandBox();
 
+    // 声明静态实例指针（供静态函数访问）
+    static CommandBox* instance;  // 新增
 
     Ui::CommandBox *ui;
 
@@ -38,6 +44,9 @@ public:
     QMetaObject::Connection conncommandResult;
     QMetaObject::Connection connerrorOccurred;
     QMetaObject::Connection connclicked;
+
+    // 保存Qt默认的消息处理器（用于控制台输出）
+    static QtMessageHandler defaultMessageHandler ;
 
     /**
      * @brief 初始化命令系统
@@ -55,6 +64,15 @@ public:
      * @return 规则引擎指针
      */
     RuleEngine* ruleEngine() const;
+
+    /*********************
+     * @brief 自定义消息处理器
+     * @param  type 
+     * @param  context 
+     * @param  msg 
+     *************************************************/
+    static void dualOutPutMesssagesHandler( QtMsgType type, const QMessageLogContext &context, const QString &msg );
+
 
 signals:
     /**
@@ -77,14 +95,18 @@ signals:
 private:
     // Ui::CommandBox *ui;
 
-
+    /*********************
+     * @brief 应用程序记录表，常用名、路径和启动参数
+     *************************************************/
     static const QMap<QString, QStringList> appMap;
     // PID记录表
 
     QWidget *childwindowtest;
     QProcess* process;
-
+     // 是直接通过一个程序名来关闭程序还是通过pid来关闭？可能打开多个程序的情况下
+     /* 打开应用与pid记录表*/
     QMap<QString, int> PIDMap;
+    QMap<qint64, QProcess*> processMap;
     // 命令实现方法
     void openApplication(const QString& appName);
     void CloseApplication(const QString& appName);

@@ -1,11 +1,27 @@
-﻿#include "RuleEngine.h"
+﻿/*********************
+ * @file RuleEngine.cpp
+ * @brief 规则引擎核心源文件
+ * @author LFG (lfg@.com)
+ * @version 1.0
+ * @date 2025-08-01
+ * 
+ * @copyright Copyright (c) 2025  LFG
+ * 
+ *************************************************/
+#include "RuleEngine.h"
 
 RuleEngine::RuleEngine(QObject *parent) : QObject(parent)
 {
     // 构造函数可以留空，规则通过addRule添加
 }
 
-//添加规则，最终通过action执行
+//
+/*********************
+ * @brief 添加规则，最终通过action执行
+ * @param  name 规则名称
+ * @param  pattern 规则匹配模式
+ * @param  action 执行
+ *************************************************/
 void RuleEngine::addRule(const QString& name,
                          const QString& pattern,
                          std::function<void(const QRegularExpressionMatch&)> action)
@@ -18,7 +34,11 @@ void RuleEngine::addRule(const QString& name,
     qDebug() << "Added rule:" << name << "with pattern:" << pattern;
 }
 
-// 最终执行，匹配规则
+// 
+/*********************
+ * @brief 最终执行，匹配规则
+ * @param  input 用户
+ *************************************************/
 void RuleEngine::execute(const QString& input)
 {
     bool matched = false;
@@ -46,17 +66,31 @@ void RuleEngine::execute(const QString& input)
     }
 }
 
+/*********************
+ * @brief 设置上下文
+ * @param  key 
+ * @param  value 
+ *************************************************/
 void RuleEngine::setContext(const QString& key, const QString& value)
 {
     m_context[key] = value;
     qDebug() << "Context set:" << key << "=" << value;
 }
 
+/*********************
+ * @brief 获取上下文
+ * @param  key 
+ * @return QString 
+ *************************************************/
 QString RuleEngine::getContext(const QString& key) const
 {
     return m_context.value(key, "");
 }
 
+/*********************
+ * @brief 获取规则
+ * @return const QVector<RuleEngine::Rule>& 
+ *************************************************/
 const QVector<RuleEngine::Rule>& RuleEngine::getRules() const
 {
     return m_rules;

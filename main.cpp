@@ -1,4 +1,15 @@
-﻿#include "mainwin.h"
+﻿
+/*********************
+ * @file main.cpp
+ * @brief AISmart + Command Box main source file
+ * @author LFG (lfg@.com)
+ * @version 1.0
+ * @date 2025-08-01
+ * 
+ * @copyright Copyright (c) 2025  LFG
+ * 
+ *************************************************/
+#include "mainwin.h"
 #include "deepseektalk.h"
 #include "datetime.h"
 #include "animationdemo.h"
@@ -22,12 +33,19 @@
 
 #include "ui_commandbox.h"
 
+#include <QCoreApplication>
+#include <QFile>
+#include <QTextStream>
+#include <qdebug.h>
+
 #ifdef _WIN32
 #include <windows.h> // Windows特定功能
 #else
 #include <unistd.h> // Linux/MacOS功能
 #endif
 
+// 保存Qt默认的消息处理器（用于控制台输出）
+static QtMessageHandler defaultMessageHandler = nullptr;
 
 
 int main(int argc, char *argv[])
@@ -60,6 +78,13 @@ int main(int argc, char *argv[])
     // 创建命令系统
     CommandBox commandbox;
     commandbox.initialize();
+
+    // 设置消息处理器，进行重定向
+    commandbox.defaultMessageHandler = qInstallMessageHandler(commandbox.dualOutPutMesssagesHandler);
+
+    commandbox.show();
+
+
     // 创建主窗口
     // QWidget window;
     // window.setWindowTitle("Command Box");
@@ -161,8 +186,7 @@ int main(int argc, char *argv[])
     // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
     QObject::connect(inputField, &QLineEdit::returnPressed, executeButton, &QPushButton::click);
 #endif
-    // window.show();
-    commandbox.show();
+    
 
 #endif
 
@@ -227,7 +251,7 @@ int main(int argc, char *argv[])
 
 #if 0
 
-    时间日期天气
+    // 时间日期天气
     DateTime today;
     today.show();
 

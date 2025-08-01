@@ -1,6 +1,18 @@
-﻿#include "commandbox.h"
+﻿/*********************
+ * @file commandbox.cpp
+ * @brief 命令盒系统核心源文件
+ * @author LFG (lfg@.com)
+ * @version 1.0
+ * @date 2025-08-01
+ * 
+ * @copyright Copyright (c) 2025  LFG
+ * 
+ *************************************************/
+#include "commandbox.h"
 #include "ui_commandbox.h"
 
+#include <memory>
+#include <QScopedPointer>
 #include "CommandSystemMap.h"
 #include <QProcess>
 #include <QFile>
@@ -43,7 +55,12 @@
 
 
 
-
+/*********************
+ * @brief 进程是否存在
+ * @param  pid 
+ * @return true 
+ * @return false 
+ *************************************************/
 bool isProcessAlive(qint64 pid) {
     // 创建进程快照
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -66,8 +83,13 @@ bool isProcessAlive(qint64 pid) {
     return false;
 }
 
+// 初始化静态指针（类外初始化）为了使用类内静态成员
+CommandBox* CommandBox::instance = nullptr;  // 新增
 
-
+/*********************
+ * @brief Construct a new Command Box:: Command Box object
+ * @param  parent 
+ *************************************************/
 CommandBox::CommandBox(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CommandBox)
@@ -75,6 +97,7 @@ CommandBox::CommandBox(QWidget *parent)
 {
     ui->setupUi(this);
 
+    instance = this;  // 新增
     // 连接规则引擎的未匹配信号
     connect(m_ruleEngine, &RuleEngine::noMatchFound, this, [this](const QString& input){
         emit commandResult(tr("未识别的命令: %1").arg(input));
@@ -99,7 +122,7 @@ CommandBox::CommandBox(QWidget *parent)
         if (!input.isEmpty()) {
             this->ui->outputArea->append("> " + input);   // 测试是否由于多余的符号导致无法识别命令 ？
             // outputArea->append(input.toUtf8() + "\r\n");
-            // 关键！！！！！
+            // 关键！！！！！ 运行命令并输入
             this->processInput(input);
             this->ui->inputField->clear();
             // 能否添加条件判断，当terminaltest实例被创建时，执行另一种命令
@@ -107,8 +130,7 @@ CommandBox::CommandBox(QWidget *parent)
         }
     });
 
-    // 回车键执行
-    // 这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
+    // 回车键执行，这个信号连接似乎就是表示当按下enter或者return时，执行点击按钮的动作？
     QObject::connect(this->ui->inputField, &QLineEdit::returnPressed, this->ui->executeButton, &QPushButton::click);
 
 
@@ -119,7 +141,39 @@ CommandBox::~CommandBox()
     delete ui;
 }
 
+/*********************
+ * @brief 保存默认消息处理器，当传递nullptr时为默认消息处理器
+ *************************************************/
+QtMessageHandler CommandBox::defaultMessageHandler = nullptr ;
 
+/*********************
+ * @brief 自定义消息处理器，用于设置消息输出重定向
+ * @param  type QtMsgType 消息类型
+ * @param  context const QMessageLogContext 
+ * @param  msg const QString 消息内容
+ *************************************************/
+void CommandBox::dualOutPutMesssagesHandler( QtMsgType type, const QMessageLogContext &context, const QString &msg )
+{
+    defaultMessageHandler(type, context, msg);
+
+    QString time = QDateTime::currentDateTime().toString();
+    // 添加消息类型前缀（选）
+    QString typeStr;
+    switch (type) {
+    case QtDebugMsg:     typeStr = "[Debug]"; break;
+    case QtWarningMsg:   typeStr = "[Warning]"; break;
+    case QtCriticalMsg:  typeStr = "[ERROR]"; break;
+    case QtFatalMsg:     typeStr = "[DEATH]"; break;
+    default:             typeStr = "[Msg]";
+    }
+    // 这里的instance就是为了使用ui
+    instance->ui->status->append(time + typeStr + msg);
+}
+
+
+/*********************
+ * @brief CommandBox 的初始化，添加规则
+ *************************************************/
 void CommandBox::initialize()
 {
     // 添加打开应用程序规则
@@ -197,12 +251,40 @@ void CommandBox::initialize()
                           });
 }
 
+
+
+//     void dualOutPutMesssagesHandler( QtMsgType type, const QMessageLogContext &context, const QString &msg )
+// {
+//     defaultMessageHandler(type, context, msg);
+
+//     QString time = QDateTime::currentDateTime().toString();
+//     // 添加消息类型前缀（可选）
+//     QString typeStr;
+//     switch (type) {
+//     case QtDebugMsg:     typeStr = "[调试]"; break;
+//     case QtWarningMsg:   typeStr = "[警告]"; break;
+//     case QtCriticalMsg:  typeStr = "[错误]"; break;
+//     case QtFatalMsg:     typeStr = "[致命]"; break;
+//     default:             typeStr = "[信息]";
+//     }
+
+//     ui->
+// }
+
 // input是裁剪首尾空格后的输入字符串
+/*********************
+ * @brief 规则处理函数
+ * @param  input 
+ *************************************************/
 void CommandBox::processInput(const QString& input)
 {
-    m_ruleEngine->execute(input);
+    m_ruleEngine->execute(input);   // 传递给execute执行
 }
 
+/*********************
+ * @brief 获取规则引擎
+ * @return RuleEngine* 
+ *************************************************/
 RuleEngine* CommandBox::ruleEngine() const
 {
     return m_ruleEngine;
@@ -210,7 +292,10 @@ RuleEngine* CommandBox::ruleEngine() const
 
 
 
-
+/*********************
+ * @brief 规则 打开程序
+ * @param  appName 
+ *************************************************/
 void CommandBox::openApplication(const QString& appName)
 {
     // 1. 浏览器特殊处理
@@ -308,6 +393,7 @@ void CommandBox::openApplication(const QString& appName)
         });
 #endif
         deepseekTalk * dp = new deepseekTalk(this);
+        // std::unique_ptr<deepseekTalk> dp(new deepseekTalk(this));
 
         // 保存原始连接的副本
         auto originalHandler = [this]() {
@@ -333,12 +419,14 @@ void CommandBox::openApplication(const QString& appName)
                     disconnect(connclicked);
                     // 2. 删除 deepseek 实例
                     delete dp;
+                    // dp.reset();
                     // dp = nullptr;
                     // 3. 恢复原始连接
                     connclicked = QObject::connect(this->ui->executeButton, &QPushButton::clicked, this, originalHandler);
                     this->ui->inputField->clear();
                     return;
                 }
+
 
                 // 非 exit 命令，转发给 deepseek
                 if (dp) {
@@ -361,8 +449,9 @@ void CommandBox::openApplication(const QString& appName)
         if (appName == "终端") {
             // executeInteractiveCommand(command[0], command.mid(1));
 
-            // 使用终端映射时，能否将输入与输出分别重定向？
+            // 使用终端映射时，能否将输入与输出分别重定向？，基于当前commandbox对象
             TerminalWidget * terminaltest = new TerminalWidget(this);
+            // 终端 键入exit时 退出终端，并恢复连接
 
             // this->terminaltest ;
             // terminaltest = new TerminalWidget(this)
@@ -412,6 +501,8 @@ void CommandBox::openApplication(const QString& appName)
 
 
         }
+        // 启动方式 start
+
 
         // 使用startDetached确保程序独立运行
         bool success = QProcess::startDetached(     // 这种方法适用于需要启动外部工具或应用程序，并且不需要与它进行交互的场景。如果需要与启动的进程进行通信（如读取输出、写入输入），则应该使用QProcess对象的非静态方法。
@@ -421,8 +512,9 @@ void CommandBox::openApplication(const QString& appName)
             &pid
             );
 
-        if (success) {
+        if (success ) {
             PIDMap.insert(appName, pid);
+            // processMap[pid] =
             //
             emit commandResult(tr("已启动应用: %1, PID:%2").arg(appName).arg(pid));
         } else {
@@ -445,6 +537,11 @@ void CommandBox::openApplication(const QString& appName)
 
 }
 
+/*********************
+ * @brief 关闭外部程序，拟通过pid关闭
+ * @param  appName 
+ * @note 暂未实现
+ *************************************************/
 void CommandBox::CloseApplication(const QString& appName)
 {
     int appPid = PIDMap[appName];
@@ -470,6 +567,14 @@ void CommandBox::CloseApplication(const QString& appName)
         //     } // 强制关闭进程
 
         // killProcessByPid(appPid);
+
+        // QProcess * process = PIDMap[appName];
+
+        // if( PIDMap.contains(appName )
+        // {
+
+        // }
+
 
         QProcess taskkill;
         taskkill.start("taskkill", {"/F", "/PID", QString::number(appPid)});
@@ -504,22 +609,36 @@ void CommandBox::CloseApplication(const QString& appName)
 
 
 
-
+/*********************
+ * @brief 打开文件，文件的路径是默认的，在build下面的debug路径下
+ * @param  fileName 
+ *************************************************/
 void CommandBox::Openfile(const QString& fileName)
 {
-    // 将本地文件路径转换为 QUrl（自动处理跨平台路径格式）
-    QUrl fileUrl = QUrl::fromLocalFile(fileName);
+    if( 0 ) // 如果在默认路径下没找到该文件，维护一个默认路径下的文件表，调用文件浏览器
+    {
 
-    // 调用系统默认程序打开文件
-    bool success = QDesktopServices::openUrl(fileUrl);
+    }else
+    {
+        // 将本地文件路径转换为 QUrl（自动处理跨平台路径格式）
+        QUrl fileUrl = QUrl::fromLocalFile(fileName);
 
-    if (success) {
-        qDebug() << "文件已用默认程序打开：" << fileName;
-    } else {
-        qDebug() << "打开文件失败，可能原因：文件不存在或无关联程序";
+        // 调用系统默认程序打开文件
+        bool success = QDesktopServices::openUrl(fileUrl);
+
+        if (success) {
+            qDebug() << "文件已用默认程序打开：" << fileName;
+        } else {
+            qDebug() << "打开文件失败，可能原因：文件不存在或无关联程序";
+        }
     }
+
 }
 
+/*********************
+ * @brief 关闭文件
+ * @param  fileName 
+ *************************************************/
 void CommandBox::Closefile(const QString& fileName)
 {
 
@@ -528,7 +647,10 @@ void CommandBox::Closefile(const QString& fileName)
 
 }
 
-
+/*********************
+ * @brief 创建文件，文件的路径是默认的，在build下面的debug路径下
+ * @param  fileName 
+ *************************************************/
 void CommandBox::createFile(const QString& fileName)
 {
     QFile file(fileName);
@@ -540,11 +662,11 @@ void CommandBox::createFile(const QString& fileName)
     }
 }
 
-void CloseFile(const QString& fileName)
-{
 
-}
-
+/*********************
+ * @brief 查找文件
+ * @param  pattern 
+ *************************************************/
 void CommandBox::searchFiles(const QString& pattern)
 {
     QDir currentDir(QDir::currentPath());
@@ -568,6 +690,10 @@ void CommandBox::searchFiles(const QString& pattern)
     }
 }
 
+/*********************
+ * @brief 运行系统命令
+ * @param  command 
+ *************************************************/
 void CommandBox::runSystemCommand(const QString& command)
 {
     QProcess process;
@@ -593,6 +719,9 @@ void CommandBox::runSystemCommand(const QString& command)
     }
 }
 
+/*********************
+ * @brief 获取时间
+ *************************************************/
 void CommandBox::getCurrentTime()
 {
     QString currentTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");

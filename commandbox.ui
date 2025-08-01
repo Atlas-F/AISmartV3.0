@@ -6,41 +6,50 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
-    <height>583</height>
+    <width>1021</width>
+    <height>703</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Hermes</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget
 {
-	background-color:#0D0221;
+    background-color:#0D0221;
 }
 
 
    QLineEdit
 {
-	border:5px ridge #B3E5FC;
-                                            border-radius:10px;
+    border:7px ridge #B3E5FC;
+                                            border-radius:15px;
                                             font-size:15px;
                                             color:#05D9E8;
                                             background-color:black;
 }
 QPushButton
 {
-	border:5px ridge #FF2A6D;
-                                               border-radius:10px;
+    border:7px ridge #FF2A6D;
+                                               border-radius:15px;
                                                font-size:15px;
+                                               color:#05D9E8;
+                                               background-color:black;
+}
+
+QPushButton:hover
+{
+    border:7px ridge #FF2A6D;
+                                               border-radius:15px;
+                                               font-size:30px;
                                                color:#00FF00;
                                                background-color:black;
 }
 
 QTextEdit
 {
-	border:5px ridge #8A2BE2;
-                                            border-radius:10px;
+    border:7px ridge #8A2BE2;
+                                            border-radius:15px;
                                             font-size:15px;
                                             color:#00FF00;
                                             background-color:black;
@@ -48,14 +57,28 @@ QTextEdit
 
 QLabel
 {
-	 font-size:15px;
+     font-size:20px ;
+     font-style: italic;
                                              color:white;
                                              background-color:black;
-}
 
+
+}
 </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>1</number>
+   </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="3,1">
      <item>
@@ -83,6 +106,9 @@ QLabel
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="placeholderText">
+            <string>请输入指令...</string>
            </property>
           </widget>
          </item>

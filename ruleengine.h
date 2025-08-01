@@ -1,4 +1,14 @@
-﻿#ifndef RULEENGINE_H
+﻿/*********************
+ * @file RuleEngine.h
+ * @brief 规则引擎核心源文件
+ * @author LFG (lfg@.com)
+ * @version 1.0
+ * @date 2025-08-01
+ * 
+ * @copyright Copyright (c) 2025  LFG
+ * 
+ *************************************************/
+#ifndef RULEENGINE_H
 #define RULEENGINE_H
 
 #include <QObject>
@@ -23,6 +33,7 @@ class RuleEngine : public QObject
 public:
     /**
      * @brief 规则定义结构体
+     * @param action 执行命令的开关，先定义，后执行
      */
     struct Rule {
         QString name;               ///< 规则名称
